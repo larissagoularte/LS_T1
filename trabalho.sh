@@ -176,8 +176,10 @@ do
 	echo "0) Voltar para o menu principal"
 	read -p "Introduza o que deseja alterar: " opcaoAlterar
 	read -p "Introduza a matrícula do veículo que deseja alterar dados: " matricula_alterar
+
 	case $opcaoAlterar in
-	1) clear
+
+	1)
 	read -p "Introduza a nova matrícula: " nova_matricula
 	c=$(grep "$matricula_alterar:" basedados.txt | cut -f 1 -d ':')
 	grep "$matricula_alterar:" basedados.txt >> tmp2
@@ -185,6 +187,47 @@ do
 	grep -v "$matricula_alterar:" basedados.txt >> tmp2
 	mv tmp2 basedados.txt
 	sort -n basedados.txt -o basedados.txt
+	;;
+
+	2)
+	read -p "Introduza a nova marca: " nova_marca
+	c=$(grep "$matricula_alterar:" basedados.txt | cut -f 2 -d ':')
+        grep "$matricula_alterar:" basedados.txt >> tmp2
+        sed -i "s/$c/$nova_marca/" tmp2
+        grep -v "$matricula_alterar:" basedados.txt >> tmp2
+        mv tmp2 basedados.txt
+        sort -n basedados.txt -o basedados.txt
+	;;
+
+	3)
+	read -p "Introduza o novo modelo: " novo_modelo
+	c=$(grep "$matricula_alterar:" basedados.txt | cut -f 1 -d ':')
+	grep "$matricula_alterar:" basedados.txt >> tmp2
+	sed -i "s/$c/$novo_modelo/" tmp2
+	grep -v "$matricula_alterar:" basedados.txt >> tmp2
+	mv tmp2 basedados.txt
+	sort -n basedados.txt -o basedados.txt
+	;;
+
+	4) 
+	read -p "Introduza o novo ano: " novo_ano
+	c=$(grep "$matricula_alterar:" basedados.txt | cut -f 1 -d ':')
+	grep "$matricula_alterar:" basedados.txt >> tmp2
+	sed -i "s/$c/$nova_matricula/" tmp2
+	grep -v "$matricula_alterar:" basedados.txt >> tmp2
+	mv tmp2 basedados.txt
+	sort -n basedados.txt -o basedados.txt 
+	;;
+
+	5)
+	;;
+
+	0) clear
+	menu_principal
+	;;
+
+	*) echo "Opção inválida..."
+	sleep 1
 	;;
 
 	esac
