@@ -1,2 +1,3 @@
 12ab34:algo:sim:193:48
+0982:marca:modelo:ano:tipo
 913234:akak:ue:umcarro
