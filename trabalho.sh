@@ -26,4 +26,3 @@ menuPrincipal(){
 		7) relatorios ;;
 	esac
 }
-
