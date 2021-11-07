@@ -28,15 +28,23 @@ menuPrincipal(){
 }
 
 function compra() {
-    
-	
 	matricula=$(dialog --stdout --inputbox 'Matricula' 0 0)
 	marca=$(dialog --stdout --inputbox 'Marca' 0 0)
 	modelo=$(dialog --stdout --inputbox 'modelo' 0 0)
 	ano=$(dialog --stdout --inputbox 'Ano' 0 0)
 	tipo=$(dialog --stdout --inputbox 'Tipo' 0 0)
-	echo "$matricula:$marca:$modelo:$ano:$tipo" >> basedados.txt
+	preco=$(dialog --stdout --inputbox 'Preço' 0 0)
+	custoRest=$(dialog --stdout --inputbox 'Custo de Restauro' 0 0)
+	
+	echo "$matricula:$marca:$modelo:$ano:$tipo:$preco:$custoRest" >> basedados.txt
+
 }
+
+function atualizaRestauro(){
+	custoRest=$(dialog --stdout --inputbox 'Novo preço total de restauro' 0 0)
+
+}
+
 
 
 menuPrincipal
