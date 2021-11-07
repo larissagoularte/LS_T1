@@ -26,3 +26,18 @@ menuPrincipal(){
 		7) relatorios ;;
 	esac
 }
+
+function compra() {
+    
+	
+	matricula=$(dialog --stdout --inputbox 'Matricula' 0 0)
+	marca=$(dialog --stdout --inputbox 'Marca' 0 0)
+	modelo=$(dialog --stdout --inputbox 'modelo' 0 0)
+	ano=$(dialog --stdout --inputbox 'Ano' 0 0)
+	tipo=$(dialog --stdout --inputbox 'Tipo' 0 0)
+	echo "$matricula:$marca:$modelo:$ano:$tipo" >> basedados.txt
+}
+
+
+menuPrincipal
+

@@ -1,3 +1,9 @@
+
 12ab34:algo:sim:193:48
 0982:ola:modelo:ano:tipo
 913234:akak:ue:umcarro
+-n ::::
+-n aa-34-76::::
+-n poiuhgfd:dfghjkl:ddfghjkl:2222:dfghjk
+-n 76-RE-28:Fiat:Punto:2016:carro
+ola:ole:oli:olo:olu
