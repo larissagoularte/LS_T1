@@ -37,7 +37,14 @@ function compra() {
 	custoRest=$(dialog --stdout --inputbox 'Custo de Restauro' 0 0)
 	
 	echo "$matricula:$marca:$modelo:$ano:$tipo:$preco:$custoRest" >> basedados.txt
+	dialog --yesno 'Quer ver as horas?' 0 0
 
+	if [ $? = 0 ]; then
+	        echo "Agora são: $( date )"
+	else
+	        echo 'Ok, não vou mostrar as horas.'
+	fi
+	menuPrincipal
 }
 
 function atualizaRestauro(){
@@ -45,7 +52,8 @@ function atualizaRestauro(){
 
 }
 
-
-
+function visualizar(){
+	dialog --textbox basedados.txt 20 80
+	menuPrincipal
+}
 menuPrincipal
-
