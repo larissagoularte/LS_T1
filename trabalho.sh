@@ -56,7 +56,10 @@ function atualizaRestauro(){
 }
 
 function visualizar(){
-	opcaoRelatorios=$(dialog             \
+
+	
+	
+	opcaoVisualizar=$(dialog             \
 		--stdout                         \
 		--title 'Relatórios'         	 \
 		--menu 'Escoha uma opção: '      \
@@ -68,10 +71,14 @@ function visualizar(){
 		5 'Tipo'                         \
 		0 'Sair para o menu Principal')
 
-	case $opcaoRelatorios in
+	
+
+	case $opcaoVisualizar in
 		0) menuPrincipal ;;
-		1)  awk -F ':' '{ print $1 }' basedados.txt;;
-		2)  awk '{ print $2 }' basedados.txt;;
+		1)  exw=$(awk -F ':' '{ print $1 }' basedados.txt)
+			dialog --textbox $exw 21 80 ;;
+		2)  #awk '{ print $2 }' basedados.txt
+		;;
 		3)  ;;
 		4)  ;;
 		5)  ;;
@@ -82,7 +89,7 @@ function visualizar(){
 	#ordenar por modelo 
 	#ordenar por ano
 	#ordenar por tipo
-	dialog --textbox basedados.txt 20 80
+	
 	menuPrincipal
 }
 
