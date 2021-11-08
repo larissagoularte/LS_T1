@@ -51,7 +51,7 @@ function compra() {
 function atualizaRestauro(){
 	custoRest=$(dialog --stdout --inputbox 'Novo preço total de restauro' 0 0)
 	#deve procurar pela ?matricula?, e depois substituir o valor
-	dialog --title "Restauro" --msgbox 'Custo de restauro atualizado com sucesso!' 0 0 
+	dialog --title "Restauro" --msgbox 'Custo de restauro atualizado para"+$custoRest+"com sucesso!' 0 0 
 	menuPrincipal
 }
 
@@ -81,14 +81,12 @@ function visualizar(){
 		#ordenar por marca
 		2)  visualizarMarca;;
 		#ordenar por modelo
-		3) visualizarModelo 
-		;;
+		3) visualizarModelo;;
 		#ordenar por ano
-		4) #awk -F ':' '{ print $4 }' basedados.txt 
-		;;
+		4) visualizarAno;;
 		#ordenar por tipo
-		5) #awk -F ':' '{ print $5 }' basedados.txt 
-		;;
+		5) visualizarTipo;; 
+		
 	esac
 	
 	#cp basedados.txt /Backups/
@@ -106,11 +104,24 @@ function visualizar(){
 		function visualizarMarca(){
 			exm=$(awk -F ':' '{ print $2 }' basedados.txt)
 			dialog --title "Relatório de Marcas" --msgbox "$exm" 0 0 
+			visualizar
 		}
 		function visualizarModelo(){
 			exmo=$(awk -F ':' '{ print $3 }' basedados.txt)
 			dialog --title "Relatório de Modelo" --msgbox "$exmo" 0 0 
+			visualizar
 		}
+		function visualizarAno(){
+			exa=$(awk -F ':' '{ print $4 }' basedados.txt)
+			dialog --title "Relatório do Ano" --msgbox "$exa" 0 0 
+			visualizar
+		}
+		function visualizarTipo(){
+			ext=$(awk -F ':' '{ print $5 }' basedados.txt)
+			dialog --title "Relatório de Tipo" --msgbox "$ext" 0 0 
+			visualizar
+		}
+
 function relatorios(){
 	opcaoRelatorios=$(dialog             \
 		--stdout                         \
@@ -149,9 +160,19 @@ function gestaoBaseDados(){
 
 	case $opcaoRelatorios in
 		0) menuPrincipal ;;
-		1)  ;;
+		1)  copia;;
 		2)  ;;
 		3)  ;;
 	esac
 }
+#FUNCOES DA FUNCAO GESTAO BASE DE DADOS
+		function copia(){
+			exa=$(awk -F ':' '{ print $4 }' basedados.txt)
+			dialog --title "Relatório do Ano" --msgbox "$exa" 0 0 
+			visualizar
+		}
+
+
+
+
 menuPrincipal
