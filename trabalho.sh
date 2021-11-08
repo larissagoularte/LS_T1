@@ -1,6 +1,7 @@
 #!/bin/bash
 
-menuPrincipal(){
+menuPrincipal()
+{
 	opcaoPrincipal=$(dialog              \
 		--stdout                         \
 		--title 'Menu Principal'         \
@@ -36,7 +37,8 @@ function compra() {
 	preco=$(dialog --stdout --inputbox 'Preço' 0 0)
 	custoRest=$(dialog --stdout --inputbox 'Custo de Restauro' 0 0)
 	
-	echo "$matricula:$marca:$modelo:$ano:$tipo:$preco:$custoRest" >> basedados.txt
+	echo "$matricula:$marca:$modelo:$ano:$preco:$custoRest" >> basedados.txt
+	echo "$matricula:$tipo" >> tiposAutomoveis.txt
 	dialog --yesno 'Quer adicionar outra compra?' 0 0
 
 		if [ $? = 0 ]; then
@@ -89,32 +91,33 @@ function visualizar(){
 	
 }
 #FUNCOES DA FUNCAO VISUALIZAR
-				function visualizarMatricula(){
-					exw=$(awk -F ':' '{ print $1 }' basedados.txt)
-					dialog --title "Relatório de Matriculas" --msgbox "$exw" 0 0
-					visualizar
-				}
-				function visualizarMarca(){
-					exm=$(awk -F ':' '{ print $2 }' basedados.txt)
-					dialog --title "Relatório de Marcas" --msgbox "$exm" 0 0 
-					visualizar
-				}
-				function visualizarModelo(){
-					exmo=$(awk -F ':' '{ print $3 }' basedados.txt)
-					dialog --title "Relatório de Modelo" --msgbox "$exmo" 0 0 
-					visualizar
-				}
-				function visualizarAno(){
-					exa=$(awk -F ':' '{ print $4 }' basedados.txt)
-					dialog --title "Relatório do Ano" --msgbox "$exa" 0 0 
-					visualizar
-				}
-				function visualizarTipo(){
-					ext=$(awk -F ':' '{ print $5 }' basedados.txt)
-					dialog --title "Relatório de Tipo" --msgbox "$ext" 0 0 
-					visualizar
-				}
+function visualizarMatricula(){
+	exw=$(sort -n -t ":" -k 1 basedados.txt)
+	dialog --title "Organizado por Matrículas" --msgbox "$exw" 0 0
+	visualizar
+}
+function visualizarMarca(){
+	exm=$(sort -t ":" -k 2 basedados.txt)
+	dialog --title "Organizado por Marcas" --msgbox "$exm" 0 0 
+	visualizar
+}
+function visualizarModelo(){
+	exmo=$(sort -t ":" -k 3 basedados.txt)
+	dialog --title "Organizado por Modelo" --msgbox "$exmo" 0 0 
+	visualizar
+}
+function visualizarAno(){
+	exa=$(sort -n -t ":" -k 4 basedados.txt)
+	dialog --title "Organizado por Ano" --msgbox "$exa" 0 0 
+	visualizar
+}
+function visualizarTipo(){
+	ext=$(sort -t ":" -k 5 basedados.txt)
+	dialog --title "Organizado por Tipo" --msgbox "$ext" 0 0 
+	visualizar
+}
 
+#Função para mostrar os relatórios
 function relatorios(){
 	opcaoRelatorios=$(dialog             \
 		--stdout                         \

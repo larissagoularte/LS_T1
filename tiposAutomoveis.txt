@@ -1,5 +1,3 @@
-conversível
-suv
-pickup
-desportivo
-sedan
+34-RC-59:Sedan
+58-TR-85:Sedan
+12-FG-63:Carrinha
