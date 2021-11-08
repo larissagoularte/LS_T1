@@ -37,19 +37,20 @@ function compra() {
 	custoRest=$(dialog --stdout --inputbox 'Custo de Restauro' 0 0)
 	
 	echo "$matricula:$marca:$modelo:$ano:$tipo:$preco:$custoRest" >> basedados.txt
-	dialog --yesno 'Quer ver as horas?' 0 0
+	dialog --yesno 'Quer adicionar outra compra?' 0 0
 
-	if [ $? = 0 ]; then
-	        echo "Agora são: $( date )"
-	else
-	        echo 'Ok, não vou mostrar as horas.'
-	fi
-	menuPrincipal
+		if [ $? = 0 ]; then
+		    compra
+		else
+			menuPrincipal
+		fi
+
+	
 }
 
 function atualizaRestauro(){
 	custoRest=$(dialog --stdout --inputbox 'Novo preço total de restauro' 0 0)
-
+	
 }
 
 function visualizar(){
