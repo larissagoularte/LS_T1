@@ -74,25 +74,43 @@ function visualizar(){
 	
 
 	case $opcaoVisualizar in
+		
 		0) menuPrincipal ;;
-		1)  exw=$(awk -F ':' '{ print $1 }' basedados.txt)
-			dialog --textbox $exw 21 80 ;;
-		2)  #awk '{ print $2 }' basedados.txt
+		#ordenar por matricula
+		1) visualizarMatricula;;
+		#ordenar por marca
+		2)  visualizarMarca;;
+		#ordenar por modelo
+		3) visualizarModelo 
 		;;
-		3)  ;;
-		4)  ;;
-		5)  ;;
-		6)  ;;
+		#ordenar por ano
+		4) #awk -F ':' '{ print $4 }' basedados.txt 
+		;;
+		#ordenar por tipo
+		5) #awk -F ':' '{ print $5 }' basedados.txt 
+		;;
 	esac
-	#ordenar por matricula
-	#ordenar por marca 
-	#ordenar por modelo 
-	#ordenar por ano
-	#ordenar por tipo
 	
-	menuPrincipal
+	#cp basedados.txt /Backups/
+	
+	
+	
+	
 }
-
+#FUNCOES DA FUNCAO VISUALIZAR
+		function visualizarMatricula(){
+			exw=$(awk -F ':' '{ print $1 }' basedados.txt)
+			dialog --title "Relatório de Matriculas" --msgbox "$exw" 0 0
+			visualizar
+		}
+		function visualizarMarca(){
+			exm=$(awk -F ':' '{ print $2 }' basedados.txt)
+			dialog --title "Relatório de Marcas" --msgbox "$exm" 0 0 
+		}
+		function visualizarModelo(){
+			exmo=$(awk -F ':' '{ print $3 }' basedados.txt)
+			dialog --title "Relatório de Modelo" --msgbox "$exmo" 0 0 
+		}
 function relatorios(){
 	opcaoRelatorios=$(dialog             \
 		--stdout                         \
