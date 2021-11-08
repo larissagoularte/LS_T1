@@ -49,6 +49,7 @@ function compra() {
 }
 
 function atualizaRestauro(){
+	pesqmat=$(dialog --stdout --inputbox 'Introduza a Matricula do veículo a restaurar' 0 0)
 	custoRest=$(dialog --stdout --inputbox 'Novo preço total de restauro' 0 0)
 	#deve procurar pela ?matricula?, e depois substituir o valor
 	dialog --title "Restauro" --msgbox 'Custo de restauro atualizado para"+$custoRest+"com sucesso!' 0 0 
@@ -56,9 +57,6 @@ function atualizaRestauro(){
 }
 
 function visualizar(){
-
-	
-	
 	opcaoVisualizar=$(dialog             \
 		--stdout                         \
 		--title 'Relatórios'         	 \
@@ -89,38 +87,33 @@ function visualizar(){
 		
 	esac
 	
-	#cp basedados.txt /Backups/
-	
-	
-	
-	
 }
 #FUNCOES DA FUNCAO VISUALIZAR
-		function visualizarMatricula(){
-			exw=$(awk -F ':' '{ print $1 }' basedados.txt)
-			dialog --title "Relatório de Matriculas" --msgbox "$exw" 0 0
-			visualizar
-		}
-		function visualizarMarca(){
-			exm=$(awk -F ':' '{ print $2 }' basedados.txt)
-			dialog --title "Relatório de Marcas" --msgbox "$exm" 0 0 
-			visualizar
-		}
-		function visualizarModelo(){
-			exmo=$(awk -F ':' '{ print $3 }' basedados.txt)
-			dialog --title "Relatório de Modelo" --msgbox "$exmo" 0 0 
-			visualizar
-		}
-		function visualizarAno(){
-			exa=$(awk -F ':' '{ print $4 }' basedados.txt)
-			dialog --title "Relatório do Ano" --msgbox "$exa" 0 0 
-			visualizar
-		}
-		function visualizarTipo(){
-			ext=$(awk -F ':' '{ print $5 }' basedados.txt)
-			dialog --title "Relatório de Tipo" --msgbox "$ext" 0 0 
-			visualizar
-		}
+				function visualizarMatricula(){
+					exw=$(awk -F ':' '{ print $1 }' basedados.txt)
+					dialog --title "Relatório de Matriculas" --msgbox "$exw" 0 0
+					visualizar
+				}
+				function visualizarMarca(){
+					exm=$(awk -F ':' '{ print $2 }' basedados.txt)
+					dialog --title "Relatório de Marcas" --msgbox "$exm" 0 0 
+					visualizar
+				}
+				function visualizarModelo(){
+					exmo=$(awk -F ':' '{ print $3 }' basedados.txt)
+					dialog --title "Relatório de Modelo" --msgbox "$exmo" 0 0 
+					visualizar
+				}
+				function visualizarAno(){
+					exa=$(awk -F ':' '{ print $4 }' basedados.txt)
+					dialog --title "Relatório do Ano" --msgbox "$exa" 0 0 
+					visualizar
+				}
+				function visualizarTipo(){
+					ext=$(awk -F ':' '{ print $5 }' basedados.txt)
+					dialog --title "Relatório de Tipo" --msgbox "$ext" 0 0 
+					visualizar
+				}
 
 function relatorios(){
 	opcaoRelatorios=$(dialog             \
@@ -148,7 +141,7 @@ function relatorios(){
 }
 
 function gestaoBaseDados(){
-	opcaoRelatorios=$(dialog             \
+	opacaoBD=$(dialog             \
 		--stdout                         \
 		--title 'Relatórios'         	 \
 		--menu 'Escoha uma opção: '      \
@@ -158,20 +151,25 @@ function gestaoBaseDados(){
 		3 'Apagar uma cópia de segurança'       \
 		0 'Sair para o menu Principal')
 
-	case $opcaoRelatorios in
+	case $opacaoBD in
 		0) menuPrincipal ;;
-		1)  copia;;
+		1) copia;;
 		2)  ;;
 		3)  ;;
 	esac
 }
-#FUNCOES DA FUNCAO GESTAO BASE DE DADOS
+#FUNCÕES DA FUNCÃO GESTAO BASE DE DADOS INACABADO
 		function copia(){
-			exa=$(awk -F ':' '{ print $4 }' basedados.txt)
-			dialog --title "Relatório do Ano" --msgbox "$exa" 0 0 
-			visualizar
+			cs=$(cp basedados.txt Backups)
+			dialog --title "Backup" --msgbox "Copia de Segurança efetuada com sucesso!" 0 0 
+			gestaoBaseDados
 		}
 
+		function apagarCopia(){
+			ac=$(rm Backups/basedados.txt)
+			dialog --title "Backup" --msgbox "Copia de Segurança apagada com sucesso!" 0 0 
+			gestaoBaseDados
+		}
 
 
 
