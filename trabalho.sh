@@ -50,11 +50,83 @@ function compra() {
 
 function atualizaRestauro(){
 	custoRest=$(dialog --stdout --inputbox 'Novo preço total de restauro' 0 0)
-	
+	#deve procurar pela ?matricula?, e depois substituir o valor
+	dialog --title "Restauro" --msgbox 'Custo de restauro atualizado com sucesso!' 0 0 
+	menuPrincipal
 }
 
 function visualizar(){
+	opcaoRelatorios=$(dialog             \
+		--stdout                         \
+		--title 'Relatórios'         	 \
+		--menu 'Escoha uma opção: '      \
+		0 0 0                            \
+		1 'Matricula'                    \
+		2 'Marca'                        \
+		3 'Modelo'                       \
+		4 'Ano'                          \
+		5 'Tipo'                         \
+		0 'Sair para o menu Principal')
+
+	case $opcaoRelatorios in
+		0) menuPrincipal ;;
+		1)  awk -F ':' '{ print $1 }' basedados.txt;;
+		2)  awk '{ print $2 }' basedados.txt;;
+		3)  ;;
+		4)  ;;
+		5)  ;;
+		6)  ;;
+	esac
+	#ordenar por matricula
+	#ordenar por marca 
+	#ordenar por modelo 
+	#ordenar por ano
+	#ordenar por tipo
 	dialog --textbox basedados.txt 20 80
 	menuPrincipal
+}
+
+function relatorios(){
+	opcaoRelatorios=$(dialog             \
+		--stdout                         \
+		--title 'Relatórios'         	 \
+		--menu 'Escoha uma opção: '      \
+		0 0 0                            \
+		1 'Listar Veículos Vendidos'     \
+		2 'Listar Veículos em Stock'     \
+		3 'Número de Veículos em Stock'  \
+		4 'Número de Veículos vendidos'  \
+		5 'Veiculo mais antigo em Stock' \
+		6 'Total Lucro'                  \
+		0 'Sair para o menu Principal')
+
+	case $opcaoRelatorios in
+		0) menuPrincipal ;;
+		1)  ;;
+		2)  ;;
+		3)  ;;
+		4)  ;;
+		5)  ;;
+		6)  ;;
+	esac
+}
+
+function gestaoBaseDados(){
+	opcaoRelatorios=$(dialog             \
+		--stdout                         \
+		--title 'Relatórios'         	 \
+		--menu 'Escoha uma opção: '      \
+		0 0 0                            \
+		1 'Backup-Criar uma cópia de segurança' \
+		2 'Restaurar uma cópia de segurança'    \
+		3 'Apagar uma cópia de segurança'       \
+		0 'Sair para o menu Principal')
+
+	case $opcaoRelatorios in
+		0) menuPrincipal ;;
+		1)  ;;
+		2)  ;;
+		3)  ;;
+	esac
 }
 menuPrincipal
