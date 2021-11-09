@@ -295,7 +295,7 @@ function visualizarAno(){
 	visualizar
 }
 
-                                                                    #Falta ir buscar o resto das informações do automóvel. Neste momento só mostra o que está no ficheiro tipoAutomoveis, ou seja, matrícula e tipo
+#Falta ir buscar o resto das informações do automóvel. Neste momento só mostra o que está no ficheiro tipoAutomoveis, ou seja, matrícula e tipo
 function visualizarTipo(){
 	ext=$(sort -t ":" -k 2 tiposAutomoveis.txt)
 	dialog --title "Organizado por Tipo" --msgbox "$ext" 0 0 
@@ -346,7 +346,7 @@ function gestaoBaseDados(){
 		3) apagarCopia;;
 	esac
 }
-#FUNCÕES DA FUNCÃO GESTAO BASE DE DADOS INACABADO
+#FUNCÕES DA FUNCÃO GESTAO BASE DE DADOS 
 		function copia(){
 			nf=$(date +"%m-%d-%H-%M")
 			cs=$(cp basedados.txt Backups/$nf.txt)
@@ -367,6 +367,7 @@ function gestaoBaseDados(){
 					else
 						dialog --title "Aviso" --msgbox 'Não foi apagado nenhuma Cópia de Segurança!' 0 0
 						gestaoBaseDados
+
 					fi
 				done
 			else 
