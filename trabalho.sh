@@ -36,7 +36,10 @@ function compra() {
 	preco=$(dialog --stdout --nocancel --inputbox 'Preço' 0 0)
 	custoRest=$(dialog --stdout --nocancel --inputbox 'Custo de Restauro' 0 0)
 	
-	echo "$matricula:$marca:$modelo:$ano:$tipo:$preco:$custoRest" >> basedados.txt
+
+	echo "$matricula:$marca:$modelo:$ano:$preco:$custoRest" >> basedados.txt
+	echo "$matricula:$tipo" >> tiposAutomoveis.txt
+
 	dialog --yesno 'Quer adicionar outra compra?' 0 0
 
 		if [ $? = 0 ]; then
@@ -51,10 +54,10 @@ function compra() {
 #Atualiza o preço de restauro
 function atualizaRestauro(){
 	basedados=basedados.txt
-	pesqmat=$(dialog --stdout --inputbox 'Introduza a Matricula do veículo a restaurar' 0 0)
+
+	pesqmat=$(dialog --stdout --nocancel --inputbox 'Introduza a Matricula do veículo a restaurar' 0 0)
+	custoRest=$(dialog --stdout --nocancel --inputbox 'Novo preço total de restauro' 0 0)
 	
-	custoRest=$(dialog --stdout --inputbox 'Novo preço total de restauro' 0 0)
-	#deve procurar pela ?matricula?, e depois substituir o valor
 	marca=$(grep $pesqmat $basedados | cut -f 2 -d ':')
 	modelo=$(grep $pesqmat $basedados | cut -f 3 -d ':')
 	ano=$(grep $pesqmat $basedados | cut -f 4 -d ':')
@@ -65,6 +68,176 @@ function atualizaRestauro(){
 	mv tmp.txt $basedados
 	dialog --title "Restauro" --msgbox 'Custo de restauro atualizado para '$custoRest' com sucesso!' 0 0 
 	menuPrincipal
+}
+
+function alteraDados(){
+	opcaoAlterar=$(dialog                                   \
+				   --stdout                                 \
+				   --title 'Alteração de dados'             \
+				   --menu 'Escolha o que quer alterar: '    \
+				   0 0 0                                    \
+				   1 'Matricula'                            \
+				   2 'Marca'                                \
+				   3 'Modelo'                               \
+				   4 'Ano'                                  \
+				   5 'Tipo'                                 \
+				   6 'Preço'                                \
+				   0 'Sair para o menu Principal')
+
+	case $opcaoAlterar in
+		0) menuPrincipal ;;
+		1) alterarMatricula ;;
+		2) alterarMarca ;;
+		3) alterarModelo ;;
+		4) alterarAno ;;
+		5) alterarTipo ;;
+		6) alterarPreco ;;
+	esac
+}
+
+function alterarMatricula(){
+
+	basedados=basedados.txt
+
+	pedeMatricula=$(dialog --stdout --nocancel --inputbox 'Introduza a matrícula que quer alterar: ' 0 0)
+	alteraMatricula=$(dialog --stdout --nocancel --inputbox 'Para que matrícula quer alterar: ' 0 0)
+	
+	marca=$(grep $pedeMatricula $basedados | cut -f 2 -d ':')
+	modelo=$(grep $pedeMatricula $basedados | cut -f 3 -d ':')
+	ano=$(grep $pedeMatricula $basedados | cut -f 4 -d ':')
+	preco=$(grep $pedeMatricula $basedados | cut -f 5 -d ':')
+	custoRest=$(grep $pedeMatricula $basedados | cut -f 6 -d ':')
+
+	grep -v $pedeMatricula $basedados > tmp.txt
+	echo "$alteraMatricula:$marca:$modelo:$ano:$preco:$custoRest" >> tmp.txt
+
+	rm $basedados
+	mv tmp.txt $basedados
+
+	dialog --title "Modificação de matrícula" --msgbox 'Matrícula alterada para '$alteraMatricula' com sucesso!' 0 0 
+
+	menuPrincipal
+}
+
+function alterarMarca(){
+
+	basedados=basedados.txt
+
+	pedeMarca=$(dialog --stdout --nocancel --inputbox 'Introduza a matrícula da marca que quer alterar: ' 0 0)
+	alteraMarca=$(dialog --stdout --nocancel --inputbox 'Para que marca quer alterar?: ' 0 0)
+	
+	matricula=$(grep $pedeMarca $basedados | cut -f 1 -d ':')
+	modelo=$(grep $pedeMarca $basedados | cut -f 3 -d ':')
+	ano=$(grep $pedeMarca $basedados | cut -f 4 -d ':')
+	preco=$(grep $pedeMarca $basedados | cut -f 5 -d ':')
+	custoRest=$(grep $pedeMarca $basedados | cut -f 6 -d ':')
+
+	grep -v $pedeMarca $basedados > tmp.txt
+	echo "$matricula:$alteraMarca:$modelo:$ano:$preco:$custoRest" >> tmp.txt
+
+	rm $basedados
+	mv tmp.txt $basedados
+
+	dialog --title "Modificação de marca" --msgbox 'Marca alterada para '$alteraMarca' com sucesso!' 0 0 
+
+	menuPrincipal
+}
+
+function alterarModelo(){
+
+	basedados=basedados.txt
+
+	pedeModelo=$(dialog --stdout --nocancel --inputbox 'Introduza a matrícula do modelo que quer alterar: ' 0 0)
+	alteraModelo=$(dialog --stdout --nocancel --inputbox 'Para que modelo quer alterar?: ' 0 0)
+	
+	matricula=$(grep $pedeModelo $basedados | cut -f 1 -d ':')
+	marca=$(grep $pedeModelo $basedados | cut -f 2 -d ':')
+	ano=$(grep $pedeModelo $basedados | cut -f 4 -d ':')
+	preco=$(grep $pedeModelo $basedados | cut -f 5 -d ':')
+	custoRest=$(grep $pedeModelo $basedados | cut -f 6 -d ':')
+
+	grep -v $pedeModelo $basedados > tmp.txt
+	echo "$matricula:$marca:$alteraModelo:$ano:$preco:$custoRest" >> tmp.txt
+
+	rm $basedados
+	mv tmp.txt $basedados
+
+	dialog --title "Modificação de modelo" --msgbox 'Modelo alterado para '$alteraModelo' com sucesso!' 0 0 
+
+	menuPrincipal
+
+}
+
+function alterarAno(){
+
+	basedados=basedados.txt
+
+	pedeAno=$(dialog --stdout --nocancel --inputbox 'Introduza a matrícula da ano que quer alterar: ' 0 0)
+	alteraAno=$(dialog --stdout --nocancel --inputbox 'Para que ano quer alterar?: ' 0 0)
+	
+	matricula=$(grep $pedeAno $basedados | cut -f 1 -d ':')
+	marca=$(grep $pedeAno $basedados | cut -f 2 -d ':')
+	modelo=$(grep $pedeAno $basedados | cut -f 3 -d ':')
+	preco=$(grep $pedeAno $basedados | cut -f 5 -d ':')
+	custoRest=$(grep $pedeAno $basedados | cut -f 6 -d ':')
+
+	grep -v $pedeAno $basedados > tmp.txt
+	echo "$matricula:$marca:$modelo:$alteraAno:$preco:$custoRest" >> tmp.txt
+
+	rm $basedados
+	mv tmp.txt $basedados
+
+	dialog --title "Modificação de ano" --msgbox 'Ano alterado para '$alteraAno' com sucesso!' 0 0 
+
+	menuPrincipal
+
+}
+
+function alterarTipo(){
+
+	tipoAutomoveis=tiposAutomoveis.txt
+
+	pedeTipo=$(dialog --stdout --nocancel --inputbox 'Introduza a matrícula do tipo que quer alterar: ' 0 0)
+	alteraTipo=$(dialog --stdout --nocancel --inputbox 'Para que tipo quer alterar?: ' 0 0)
+	
+	matricula=$(grep $pedeTipo $tipoAutomoveis | cut -f 1 -d ':')
+	tipo=$(grep $pedeTipo $tipoAutomoveis | cut -f 2 -d ':')
+
+	grep -v $pedeTipo $tipoAutomoveis > tmp.txt
+	echo "$matricula:$alteraTipo" >> tmp.txt
+
+	rm $tipoAutomoveis
+	mv tmp.txt $tipoAutomoveis
+
+	dialog --title "Modificação de tipo" --msgbox 'Tipo alterado para '$alteraTipo' com sucesso!' 0 0 
+
+	menuPrincipal
+
+}
+
+function alterarPreco(){
+
+	basedados=basedados.txt
+
+	pedePreco=$(dialog --stdout --nocancel --inputbox 'Introduza a matrícula da preço que quer alterar: ' 0 0)
+	alteraPreco=$(dialog --stdout --nocancel --inputbox 'Para que preço quer alterar?: ' 0 0)
+	
+	matricula=$(grep $pedePreco $basedados | cut -f 1 -d ':')
+	marca=$(grep $pedePreco $basedados | cut -f 2 -d ':')
+	modelo=$(grep $pedePreco $basedados | cut -f 3 -d ':')
+	ano=$(grep $pedePreco $basedados | cut -f 4 -d ':')
+	custoRest=$(grep $pedePreco $basedados | cut -f 6 -d ':')
+
+	grep -v $pedePreco $basedados > tmp.txt
+	echo "$matricula:$marca:$modelo:$ano:$alteraPreco:$custoRest" >> tmp.txt
+
+	rm $basedados
+	mv tmp.txt $basedados
+
+	dialog --title "Modificação de preço" --msgbox 'Preço alterado para '$alteraPreco' com sucesso!' 0 0 
+
+	menuPrincipal
+
 }
 
 function visualizar(){
@@ -167,23 +340,30 @@ function gestaoBaseDados(){
 	case $opacaoBD in
 		0) menuPrincipal ;;
 		1) copia;;
-		2)  ;;
+		2) restauroCopia;;
 		3)  ;;
 	esac
 }
 #FUNCÕES DA FUNCÃO GESTAO BASE DE DADOS INACABADO
 		function copia(){
-			cs=$(cp basedados.txt Backups)
+			nf=$(date +"%m-%d-%H-%M")
+			cs=$(cp basedados.txt Backups/$nf.txt)
 			dialog --title "Backup" --msgbox "Copia de Segurança efetuada com sucesso!" 0 0 
 			gestaoBaseDados
 		}
-
 		function apagarCopia(){
 			ac=$(rm Backups/basedados.txt)
-			dialog --title "Backup" --msgbox "Copia de Segurança apagada com sucesso!" 0 0 
+			dialog --title "Backup" --msgbox "$ac" 0 0 
 			gestaoBaseDados
 		}
-
+		function restauroCopia(){
+			ls Backups/ > output_file.txt
+			show=$(cat output_file.txt)
+			dialog --title "Backup" --msgbox "$show" 0 0
+			nomeFich=$(dialog --stdout --nocancel --inputbox 'Introduza o nome do ficheiro a restaurar:' 0 0)
+			retaurarCopia=$(cp -f  Backups/$nomeFich basedados.txt)
+			gestaoBaseDados
+		}
 
 
 menuPrincipal
