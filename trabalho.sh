@@ -244,7 +244,7 @@ function alterarPreco(){
 function visualizar(){
 	opcaoVisualizar=$(dialog             \
 		--stdout                         \
-		--title 'Relatórios'         	 \
+		--title 'Visualizar'         	 \
 		--menu 'Escoha uma opção: '      \
 		0 0 0                            \
 		1 'Matricula'                    \
