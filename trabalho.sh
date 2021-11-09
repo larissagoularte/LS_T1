@@ -36,7 +36,10 @@ function compra() {
 	preco=$(dialog --stdout --nocancel --inputbox 'Preço' 0 0)
 	custoRest=$(dialog --stdout --nocancel --inputbox 'Custo de Restauro' 0 0)
 	
-	echo "$matricula:$marca:$modelo:$ano:$tipo:$preco:$custoRest" >> basedados.txt
+
+	echo "$matricula:$marca:$modelo:$ano:$preco:$custoRest" >> basedados.txt
+	echo "$matricula:$tipo" >> tiposAutomoveis.txt
+
 	dialog --yesno 'Quer adicionar outra compra?' 0 0
 
 		if [ $? = 0 ]; then
@@ -337,23 +340,30 @@ function gestaoBaseDados(){
 	case $opacaoBD in
 		0) menuPrincipal ;;
 		1) copia;;
-		2)  ;;
+		2) restauroCopia;;
 		3)  ;;
 	esac
 }
 #FUNCÕES DA FUNCÃO GESTAO BASE DE DADOS INACABADO
 		function copia(){
-			cs=$(cp basedados.txt Backups)
+			nf=$(date +"%m-%d-%H-%M")
+			cs=$(cp basedados.txt Backups/$nf.txt)
 			dialog --title "Backup" --msgbox "Copia de Segurança efetuada com sucesso!" 0 0 
 			gestaoBaseDados
 		}
-
 		function apagarCopia(){
 			ac=$(rm Backups/basedados.txt)
-			dialog --title "Backup" --msgbox "Copia de Segurança apagada com sucesso!" 0 0 
+			dialog --title "Backup" --msgbox "$ac" 0 0 
 			gestaoBaseDados
 		}
-
+		function restauroCopia(){
+			ls Backups/ > output_file.txt
+			show=$(cat output_file.txt)
+			dialog --title "Backup" --msgbox "$show" 0 0
+			nomeFich=$(dialog --stdout --nocancel --inputbox 'Introduza o nome do ficheiro a restaurar:' 0 0)
+			retaurarCopia=$(cp -f  Backups/$nomeFich basedados.txt)
+			gestaoBaseDados
+		}
 
 
 menuPrincipal
