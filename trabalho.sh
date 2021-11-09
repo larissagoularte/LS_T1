@@ -124,7 +124,7 @@ function visualizarAno(){
 	visualizar
 }
 
-#Falta ir buscar o resto das informações do automóvel. Neste momento só mostra o que está no ficheiro tipoAutomoveis, ou seja, matrícula e tipo
+                                                                    #Falta ir buscar o resto das informações do automóvel. Neste momento só mostra o que está no ficheiro tipoAutomoveis, ou seja, matrícula e tipo
 function visualizarTipo(){
 	ext=$(sort -t ":" -k 2 tiposAutomoveis.txt)
 	dialog --title "Organizado por Tipo" --msgbox "$ext" 0 0 
@@ -159,7 +159,7 @@ function relatorios(){
 function gestaoBaseDados(){
 	opacaoBD=$(dialog             \
 		--stdout                         \
-		--title 'Relatórios'         	 \
+		--title 'Gestão de Base de dados'         	 \
 		--menu 'Escoha uma opção: '      \
 		0 0 0                            \
 		1 'Backup-Criar uma cópia de segurança' \
@@ -171,7 +171,7 @@ function gestaoBaseDados(){
 		0) menuPrincipal ;;
 		1) copia;;
 		2) restauroCopia;;
-		3)  ;;
+		3) apagarCopia;;
 	esac
 }
 #FUNCÕES DA FUNCÃO GESTAO BASE DE DADOS INACABADO
@@ -181,15 +181,44 @@ function gestaoBaseDados(){
 			dialog --title "Backup" --msgbox "Copia de Segurança efetuada com sucesso!" 0 0 
 			gestaoBaseDados
 		}
+		#esta função vai apagar copias de segurança
 		function apagarCopia(){
-			ac=$(rm Backups/basedados.txt)
-			dialog --title "Backup" --msgbox "$ac" 0 0 
-			gestaoBaseDados
+			ls Backups/ > output_file.txt
+			show=$(cat output_file.txt)
+			dialog --title "Backup"  --msgbox "$show" 0 0
+			nomeFich=$(dialog --stdout --nocancel --inputbox 'Introduza o nome do ficheiro a restaurar:' 0 0)
+			if [[ $nomeFich ]]; then
+				while [[ $nomeFich ]]; do
+				dialog --yesno 'Tem a certeza que deseja apagar?' 0 0
+					if [ $? = 0 ]; then
+						apagarDefinitivo
+					else
+						dialog --title "Aviso" --msgbox 'Não foi apagado nenhuma Cópia de Segurança!' 0 0
+						gestaoBaseDados
+					fi
+				done
+			else 
+				dialog --title "Aviso" --msgbox 'Não foi apagado nenhuma Cópia de Segurança!' 0 0
+				gestaoBaseDados
+			fi
 		}
+		#esta função pertence a apagarCopia()
+		function apagarDefinitivo(){
+			
+				ac=$(rm Backups/$nomeFich)
+				dialog --title "O Backup $nomeFich foi apagado! " --msgbox "$ac" 0 0
+				dialog --yesno 'Deseja apagar outra Cópia de Segurança?' 0 0
+				if [ $? = 0 ]; then
+					apagarCopia
+				else
+					gestaoBaseDados
+				fi
+		}
+
 		function restauroCopia(){
 			ls Backups/ > output_file.txt
 			show=$(cat output_file.txt)
-			dialog --title "Backup" --msgbox "$show" 0 0
+			dialog --title "Backup"  --msgbox "$show" 0 0
 			nomeFich=$(dialog --stdout --nocancel --inputbox 'Introduza o nome do ficheiro a restaurar:' 0 0)
 			retaurarCopia=$(cp -f  Backups/$nomeFich basedados.txt)
 			gestaoBaseDados
