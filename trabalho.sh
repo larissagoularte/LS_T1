@@ -28,9 +28,10 @@ menuPrincipal(){
 }
 
 function compra() {
+	#fazer aqui um if para  a verificação
 	matricula=$(dialog --stdout --nocancel --inputbox 'Matricula' 0 0)
 	marca=$(dialog --stdout --nocancel --inputbox 'Marca' 0 0)
-	modelo=$(dialog --stdout --nocancel --inputbox 'modelo' 0 0)
+	modelo=$(dialog --stdout --nocancel --inputbox 'Modelo' 0 0)
 	ano=$(dialog --stdout --nocancel --inputbox 'Ano' 0 0)
 	tipo=$(dialog --stdout --nocancel --inputbox 'Tipo' 0 0)
 	preco=$(dialog --stdout --nocancel --inputbox 'Preço' 0 0)
@@ -239,7 +240,7 @@ function alterarPreco(){
 	menuPrincipal
 
 }
-
+#esta função permite visualizar ordenando por categoria
 function visualizar(){
 	opcaoVisualizar=$(dialog             \
 		--stdout                         \
@@ -272,7 +273,7 @@ function visualizar(){
 	esac
 	
 }
-#FUNCOES DA FUNCAO VISUALIZAR
+#funções pertencentes a visualizar()
 function visualizarMatricula(){
 	exw=$(sort -n -t ":" -k 1 basedados.txt)
 	dialog --title "Organizado por Matrículas" --msgbox "$exw" 0 0
@@ -301,6 +302,7 @@ function visualizarTipo(){
 	visualizar
 }
 
+#função para mostrar relatorios
 function relatorios(){
 	opcaoRelatorios=$(dialog             \
 		--stdout                         \
@@ -374,7 +376,6 @@ function gestaoBaseDados(){
 		}
 		#esta função pertence a apagarCopia()
 		function apagarDefinitivo(){
-			
 				ac=$(rm Backups/$nomeFich)
 				dialog --title "O Backup $nomeFich foi apagado! " --msgbox "$ac" 0 0
 				dialog --yesno 'Deseja apagar outra Cópia de Segurança?' 0 0
