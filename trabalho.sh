@@ -36,7 +36,10 @@ function compra() {
 	preco=$(dialog --stdout --inputbox 'Preço' 0 0)
 	custoRest=$(dialog --stdout --inputbox 'Custo de Restauro' 0 0)
 	
-	echo "$matricula:$marca:$modelo:$ano:$tipo:$preco:$custoRest" >> basedados.txt
+
+	echo "$matricula:$marca:$modelo:$ano:$preco:$custoRest" >> basedados.txt
+	echo "$matricula:$tipo" >> tiposAutomoveis.txt
+
 	dialog --yesno 'Quer adicionar outra compra?' 0 0
 
 		if [ $? = 0 ]; then
