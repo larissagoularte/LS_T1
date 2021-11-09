@@ -176,7 +176,8 @@ function gestaoBaseDados(){
 }
 #FUNCÕES DA FUNCÃO GESTAO BASE DE DADOS INACABADO
 		function copia(){
-			cs=$(cp basedados.txt Backups)
+			nf=$(date +"%m-%d-%H-%M")
+			cs=$(cp basedados.txt Backups/$nf.txt)
 			dialog --title "Backup" --msgbox "Copia de Segurança efetuada com sucesso!" 0 0 
 			gestaoBaseDados
 		}
