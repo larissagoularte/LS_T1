@@ -29,13 +29,13 @@ menuPrincipal(){
 
 function compra() {
 	#fazer aqui um if para  a verificação
-	matricula=$(dialog --stdout --title "Compra" --nocancel --inputbox 'Matricula' 0 0)
-	marca=$(dialog --stdout --title "Compra" --nocancel --inputbox 'Marca' 0 0)
-	modelo=$(dialog --stdout --title "Compra" --nocancel --inputbox 'Modelo' 0 0)
-	ano=$(dialog --stdout --title "Compra" --nocancel --inputbox 'Ano' 0 0)
-	tipo=$(dialog --stdout --title "Compra" --nocancel --inputbox 'Tipo' 0 0)
-	preco=$(dialog --stdout --title "Compra" --nocancel --inputbox 'Preço' 0 0)
-	custoRest=$(dialog --stdout --title "Compra" --nocancel --inputbox 'Custo de Restauro' 0 0)
+	matricula=$(dialog --stdout --title "Compra de veículo" --nocancel --inputbox 'Matricula' 0 0)
+	marca=$(dialog --stdout --title "Compra de veículo" --nocancel --inputbox 'Marca' 0 0)
+	modelo=$(dialog --stdout --title "Compra de veículo" --nocancel --inputbox 'Modelo' 0 0)
+	ano=$(dialog --stdout --title "Compra de veículo" --nocancel --inputbox 'Ano' 0 0)
+	tipo=$(dialog --stdout --title "Compra de veículo" --nocancel --inputbox 'Tipo' 0 0)
+	preco=$(dialog --stdout --title "Compra de veículo" --nocancel --inputbox 'Preço' 0 0)
+	custoRest=$(dialog --stdout --title "Compra de veículo" --nocancel --inputbox 'Custo de Restauro' 0 0)
 	
 
 	echo "$matricula:$marca:$modelo:$ano:$preco:$custoRest" >> basedados.txt
@@ -52,7 +52,20 @@ function compra() {
 	
 }
 #Venda
-#function venda(){}
+function venda(){
+	show=$(cat basedados.txt)
+	dialog --title "Venda de veículo"  --msgbox "$show" 0 0
+	mVenda=$(dialog --stdout --title "Venda de veículo" --nocancel --inputbox 'Introuza a Matricula do veículo a vender:' 0 0)
+	pVenda=$(dialog --stdout --title "Venda de veículo" --nocancel --inputbox 'Introuza o preco de venda do veículo:' 0 0)
+	dVenda=$(dialog --stdout --title "Venda de veículo" --nocancel --inputbox 'Introuza a data de venda do veículo:' 0 0)
+	vendaC=$(grep '$mVenda' basedados.txt > temporary.txt | echo $mVenda:$pVenda:$dVenda > bdVendas.txt | grep -v "$mVenda" basedados.txt)
+	dialog --title "Venda de veículo"  --msgbox "$vendaC" 0 0
+
+
+
+
+	menuPrincipal
+}
 
 #Atualiza o preço de restauro
 function atualizaRestauro(){
