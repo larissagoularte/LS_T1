@@ -29,13 +29,13 @@ menuPrincipal(){
 
 function compra() {
 	#fazer aqui um if para  a verificação
-	matricula=$(dialog --stdout --nocancel --inputbox 'Matricula' 0 0)
-	marca=$(dialog --stdout --nocancel --inputbox 'Marca' 0 0)
-	modelo=$(dialog --stdout --nocancel --inputbox 'Modelo' 0 0)
-	ano=$(dialog --stdout --nocancel --inputbox 'Ano' 0 0)
-	tipo=$(dialog --stdout --nocancel --inputbox 'Tipo' 0 0)
-	preco=$(dialog --stdout --nocancel --inputbox 'Preço' 0 0)
-	custoRest=$(dialog --stdout --nocancel --inputbox 'Custo de Restauro' 0 0)
+	matricula=$(dialog --stdout --title "Compra" --nocancel --inputbox 'Matricula' 0 0)
+	marca=$(dialog --stdout --title "Compra" --nocancel --inputbox 'Marca' 0 0)
+	modelo=$(dialog --stdout --title "Compra" --nocancel --inputbox 'Modelo' 0 0)
+	ano=$(dialog --stdout --title "Compra" --nocancel --inputbox 'Ano' 0 0)
+	tipo=$(dialog --stdout --title "Compra" --nocancel --inputbox 'Tipo' 0 0)
+	preco=$(dialog --stdout --title "Compra" --nocancel --inputbox 'Preço' 0 0)
+	custoRest=$(dialog --stdout --title "Compra" --nocancel --inputbox 'Custo de Restauro' 0 0)
 	
 
 	echo "$matricula:$marca:$modelo:$ano:$preco:$custoRest" >> basedados.txt
@@ -51,13 +51,15 @@ function compra() {
 
 	
 }
+#Venda
+#function venda(){}
 
 #Atualiza o preço de restauro
 function atualizaRestauro(){
 	basedados=basedados.txt
 
-	pesqmat=$(dialog --stdout --nocancel --inputbox 'Introduza a Matricula do veículo a restaurar' 0 0)
-	custoRest=$(dialog --stdout --nocancel --inputbox 'Novo preço total de restauro' 0 0)
+	pesqmat=$(dialog --stdout --title 'Atualizar preço de restauro' --nocancel --inputbox 'Introduza a Matricula do veículo:' 0 0)
+	custoRest=$(dialog --stdout --title 'Atualizar preço de restauro' --nocancel --inputbox 'Novo preço total de restauro:' 0 0)
 	
 	marca=$(grep $pesqmat $basedados | cut -f 2 -d ':')
 	modelo=$(grep $pesqmat $basedados | cut -f 3 -d ':')
@@ -97,11 +99,11 @@ function alteraDados(){
 }
 
 function alterarMatricula(){
-
+	#é necessário fazer a verificação
 	basedados=basedados.txt
 
-	pedeMatricula=$(dialog --stdout --nocancel --inputbox 'Introduza a matrícula que quer alterar: ' 0 0)
-	alteraMatricula=$(dialog --stdout --nocancel --inputbox 'Para que matrícula quer alterar: ' 0 0)
+	pedeMatricula=$(dialog --stdout --title 'Alteração de dados' --nocancel --inputbox 'Introduza a matrícula que quer alterar: ' 0 0)
+	alteraMatricula=$(dialog --stdout --title 'Alteração de dados' --nocancel --inputbox 'Para que matrícula quer alterar: ' 0 0)
 	
 	marca=$(grep $pedeMatricula $basedados | cut -f 2 -d ':')
 	modelo=$(grep $pedeMatricula $basedados | cut -f 3 -d ':')
@@ -121,11 +123,11 @@ function alterarMatricula(){
 }
 
 function alterarMarca(){
-
+	#é necessário fazer a verificação
 	basedados=basedados.txt
 
-	pedeMarca=$(dialog --stdout --nocancel --inputbox 'Introduza a matrícula da marca que quer alterar: ' 0 0)
-	alteraMarca=$(dialog --stdout --nocancel --inputbox 'Para que marca quer alterar?: ' 0 0)
+	pedeMarca=$(dialog --stdout --title 'Alteração de dados' --nocancel --inputbox 'Introduza a matrícula da marca que quer alterar: ' 0 0)
+	alteraMarca=$(dialog --stdout --title 'Alteração de dados' --nocancel --inputbox 'Para que marca quer alterar?: ' 0 0)
 	
 	matricula=$(grep $pedeMarca $basedados | cut -f 1 -d ':')
 	modelo=$(grep $pedeMarca $basedados | cut -f 3 -d ':')
@@ -145,11 +147,11 @@ function alterarMarca(){
 }
 
 function alterarModelo(){
-
+	#é necessário fazer a verificação
 	basedados=basedados.txt
 
-	pedeModelo=$(dialog --stdout --nocancel --inputbox 'Introduza a matrícula do modelo que quer alterar: ' 0 0)
-	alteraModelo=$(dialog --stdout --nocancel --inputbox 'Para que modelo quer alterar?: ' 0 0)
+	pedeModelo=$(dialog --stdout --title 'Alteração de dados' --nocancel --inputbox 'Introduza a matrícula do modelo que quer alterar: ' 0 0)
+	alteraModelo=$(dialog --stdout --title 'Alteração de dados' --nocancel --inputbox 'Para que modelo quer alterar?: ' 0 0)
 	
 	matricula=$(grep $pedeModelo $basedados | cut -f 1 -d ':')
 	marca=$(grep $pedeModelo $basedados | cut -f 2 -d ':')
@@ -170,11 +172,11 @@ function alterarModelo(){
 }
 
 function alterarAno(){
-
+	#é necessário fazer a verificação
 	basedados=basedados.txt
 
-	pedeAno=$(dialog --stdout --nocancel --inputbox 'Introduza a matrícula da ano que quer alterar: ' 0 0)
-	alteraAno=$(dialog --stdout --nocancel --inputbox 'Para que ano quer alterar?: ' 0 0)
+	pedeAno=$(dialog --stdout --nocancel --title 'Alteração de dados' --inputbox 'Introduza a matrícula da ano que quer alterar: ' 0 0)
+	alteraAno=$(dialog --stdout --nocancel --title 'Alteração de dados' --inputbox 'Para que ano quer alterar?: ' 0 0)
 	
 	matricula=$(grep $pedeAno $basedados | cut -f 1 -d ':')
 	marca=$(grep $pedeAno $basedados | cut -f 2 -d ':')
@@ -195,11 +197,11 @@ function alterarAno(){
 }
 
 function alterarTipo(){
-
+	#é necessário fazer a verificação
 	tipoAutomoveis=tiposAutomoveis.txt
 
-	pedeTipo=$(dialog --stdout --nocancel --inputbox 'Introduza a matrícula do tipo que quer alterar: ' 0 0)
-	alteraTipo=$(dialog --stdout --nocancel --inputbox 'Para que tipo quer alterar?: ' 0 0)
+	pedeTipo=$(dialog --stdout --nocancel --title 'Alteração de dados' --inputbox 'Introduza a matrícula do tipo que quer alterar: ' 0 0)
+	alteraTipo=$(dialog --stdout --nocancel --title 'Alteração de dados' --inputbox 'Para que tipo quer alterar?: ' 0 0)
 	
 	matricula=$(grep $pedeTipo $tipoAutomoveis | cut -f 1 -d ':')
 	tipo=$(grep $pedeTipo $tipoAutomoveis | cut -f 2 -d ':')
@@ -217,11 +219,11 @@ function alterarTipo(){
 }
 
 function alterarPreco(){
-
+	#é necessário fazer a verificação
 	basedados=basedados.txt
 
-	pedePreco=$(dialog --stdout --nocancel --inputbox 'Introduza a matrícula da preço que quer alterar: ' 0 0)
-	alteraPreco=$(dialog --stdout --nocancel --inputbox 'Para que preço quer alterar?: ' 0 0)
+	pedePreco=$(dialog --stdout --title 'Alteração de dados' --nocancel --inputbox 'Introduza a matrícula da preço que quer alterar: ' 0 0)
+	alteraPreco=$(dialog --stdout --title 'Alteração de dados' --nocancel --inputbox 'Para que preço quer alterar?: ' 0 0)
 	
 	matricula=$(grep $pedePreco $basedados | cut -f 1 -d ':')
 	marca=$(grep $pedePreco $basedados | cut -f 2 -d ':')
@@ -321,11 +323,16 @@ function relatorios(){
 		0) menuPrincipal ;;
 		1)  ;;
 		2)  ;;
-		3)  ;;
+		3)  numVStock;;
 		4)  ;;
 		5)  ;;
 		6)  ;;
 	esac
+}
+function numVStock(){
+	numeroVS=$(grep -c ^ basedados.txt)
+	dialog --title "Relatório"  --msgbox "O número de veiculos em stock é de: ""$numeroVS" 0 0
+	relatorios
 }
 
 function gestaoBaseDados(){
