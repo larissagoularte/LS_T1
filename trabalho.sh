@@ -170,7 +170,7 @@ function gestaoBaseDados(){
 	case $opacaoBD in
 		0) menuPrincipal ;;
 		1) copia;;
-		2)  ;;
+		2) restauroCopia;;
 		3)  ;;
 	esac
 }
@@ -180,13 +180,19 @@ function gestaoBaseDados(){
 			dialog --title "Backup" --msgbox "Copia de Segurança efetuada com sucesso!" 0 0 
 			gestaoBaseDados
 		}
-
 		function apagarCopia(){
 			ac=$(rm Backups/basedados.txt)
-			dialog --title "Backup" --msgbox "Copia de Segurança apagada com sucesso!" 0 0 
+			dialog --title "Backup" --msgbox "$ac" 0 0 
 			gestaoBaseDados
 		}
-
+		function restauroCopia(){
+			ls Backups/ > output_file.txt
+			show=$(cat output_file.txt)
+			dialog --title "Backup" --msgbox "$show" 0 0
+			nomeFich=$(dialog --stdout --nocancel --inputbox 'Introduza o nome do ficheiro a restaurar:' 0 0)
+			retaurarCopia=$(cp -f  Backups/$nomeFich basedados.txt)
+			gestaoBaseDados
+		}
 
 
 menuPrincipal

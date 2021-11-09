@@ -1,8 +1,4 @@
+58-TR-85:Ford:Focus:2017:5600:2100
+34-RC-59:Opel:Corsa:2016:5900:100
+12-FG-63:Volvo:V40:2015:6700:14
 
-38-GH-65:Opel :Corsa:2020:carro:15:1
-78-34-RE:Nissan:Micra:2001:carro:8:3
-PR-20-34:Peugeot:207:2015:carro:17:2tes1:mar1:mod1:ano21:tipo3:prec4:rest5
-1:2:3:4:5:6:7
-12::3:45:6:7:
-:tre:e:w:w:a:g
-1:23:4:5:6:f:gvd
