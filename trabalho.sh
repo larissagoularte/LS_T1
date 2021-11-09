@@ -1,7 +1,6 @@
 #!/bin/bash
 
-menuPrincipal()
-{
+menuPrincipal(){
 	opcaoPrincipal=$(dialog              \
 		--stdout                         \
 		--title 'Menu Principal'         \
@@ -37,8 +36,7 @@ function compra() {
 	preco=$(dialog --stdout --nocancel --inputbox 'Preço' 0 0)
 	custoRest=$(dialog --stdout --nocancel --inputbox 'Custo de Restauro' 0 0)
 	
-	echo "$matricula:$marca:$modelo:$ano:$preco:$custoRest" >> basedados.txt
-	echo "$matricula:$tipo" >> tiposAutomoveis.txt
+	echo "$matricula:$marca:$modelo:$ano:$tipo:$preco:$custoRest" >> basedados.txt
 	dialog --yesno 'Quer adicionar outra compra?' 0 0
 
 		if [ $? = 0 ]; then
@@ -54,6 +52,7 @@ function compra() {
 function atualizaRestauro(){
 	basedados=basedados.txt
 	pesqmat=$(dialog --stdout --inputbox 'Introduza a Matricula do veículo a restaurar' 0 0)
+	
 	custoRest=$(dialog --stdout --inputbox 'Novo preço total de restauro' 0 0)
 	#deve procurar pela ?matricula?, e depois substituir o valor
 	marca=$(grep $pesqmat $basedados | cut -f 2 -d ':')
@@ -129,7 +128,6 @@ function visualizarTipo(){
 	visualizar
 }
 
-#Função para mostrar os relatórios
 function relatorios(){
 	opcaoRelatorios=$(dialog             \
 		--stdout                         \
