@@ -58,12 +58,12 @@ function venda(){
 	mVenda=$(dialog --stdout --title "Venda de veículo" --nocancel --inputbox 'Introuza a Matricula do veículo a vender:' 0 0)
 	pVenda=$(dialog --stdout --title "Venda de veículo" --nocancel --inputbox 'Introuza o preco de venda do veículo:' 0 0)
 	dVenda=$(dialog --stdout --title "Venda de veículo" --nocancel --inputbox 'Introuza a data de venda do veículo:' 0 0)
-	vendaC=$(grep '$mVenda' basedados.txt > temporary.txt | echo $mVenda:$pVenda:$dVenda > bdVendas.txt | grep -v "$mVenda" basedados.txt)
+	vendaC=$(grep '$mVenda' basedados.txt > temporary.txt | echo $mVenda:$pVenda:$dVenda > bdVendas.txt | sed -i "" "s/58-TR-85/d" basedados.txt )
 	dialog --title "Venda de veículo"  --msgbox "$vendaC" 0 0
 
 
 
-
+	#grep -v "$mVenda" basedados.txt
 	menuPrincipal
 }
 
@@ -357,6 +357,8 @@ function numVStock(){
 	dialog --title "Relatório"  --msgbox "O número de veiculos em stock é de: ""$numeroVS" 0 0
 	relatorios
 }
+
+#function veiculoVendidos
 
 function gestaoBaseDados(){
 	opacaoBD=$(dialog             \
