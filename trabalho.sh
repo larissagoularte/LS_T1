@@ -55,6 +55,7 @@ function compra() {
 		fi
 	fi	
 }
+
 #Venda
 function venda(){
 
@@ -404,15 +405,34 @@ function visualizarAno(){
 	visualizar
 }
 
-#Falta ir buscar o resto das informações do automóvel. Neste momento só mostra o que está no ficheiro tipoAutomoveis, ou seja, matrícula e tipo
-function visualizarTipo(){
+function visualizarTipo() {
 
-	sort -t ":" -k 2 -f -o tiposAutomoveis.txt tiposAutomoveis.txt
+    # É necessário organizar o ficheiro dos tipos primeiro, caso contrário não ficam ordenados por tipo
+    sort -k 2 -t ':' -o tiposAutomoveis.txt tiposAutomoveis.txt
+    
+    matriculas=($(awk -F ':' '{ awkArray[counter++] = $1; } END { for (n=0; n<counter;n++) print awkArray[n]; }' tiposAutomoveis.txt)) 
 
-	#matricula=((awk))
+    w=()
 
-	dialog --title "Organizado por Tipo" --msgbox "$ext" 0 0 
+    for matricula in "${matriculas[@]}"
+    do
+        if grep -q $matricula basedados.txt; then
+            # Vai buscar o tipo do veículo com a matricula especificada
+            line1=$(grep $matricula tiposAutomoveis.txt | cut -f 2 -d ':')
+
+			# Vai buscar a restante informação do veículo
+            line2=$(grep $matricula basedados.txt)
+            # Concatena toda a informação referente ao veículo
+
+			lines=$line2":"$line1
+            
+			dialog --title " tipo" --msgbox "$lines" 0 0    
+
+        fi
+    done
 	visualizar
+
+
 }
 
 #função para mostrar relatorios
