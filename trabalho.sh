@@ -367,9 +367,8 @@ function numVVendidos(){
 }
 #Veiculo mais antigo em Stock
 function maisAntigoS(){
-	
-	maisAnt=$(tail +number basedados.txt)
-	dialog --tilte "Relatório" --msgbox 2 "O veiculo mais antigo em stock é: ""$maisAnt" 0 0 
+	maisAnt=$(head -n 1 basedados.txt)
+	dialog --title "Relatório" --msgbox "O veiculo mais antigo em stock é: ""$maisAnt" 0 0 
 	relatorios
 }
 
