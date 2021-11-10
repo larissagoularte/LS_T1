@@ -53,12 +53,13 @@ function compra() {
 }
 #Venda
 function venda(){
+	basedados=basedados.txt
 	show=$(cat basedados.txt)
+	di	show=$(cat basedados.txt)
 	dialog --title "Venda de veículo"  --msgbox "$show" 0 0
 	mVenda=$(dialog --stdout --title "Venda de veículo" --nocancel --inputbox 'Introuza a Matricula do veículo a vender:' 0 0)
 	pVenda=$(dialog --stdout --title "Venda de veículo" --nocancel --inputbox 'Introuza o preco de venda do veículo:' 0 0)
-	dVenda=$(dialog --stdout --title "Venda de veículo" --nocancel --inputbox 'Introuza a data de venda do veículo:' 0 0)
-	vendaC=$(grep '$mVenda' basedados.txt > temporary.txt | echo $mVenda:$pVenda:$dVenda > bdVendas.txt | grep -vw '^58-TR-85\b' basedados.txt )
+	dVenda=$(dialog --stdout --title "Venda de veículo" --nocancel	vendaC=$(grep '$mVenda' basedados.txt > temporary.txt | echo $mVenda:$pVenda:$dVenda > bdVendas.txt | grep -vw '^58-TR-85\b' basedados.txt )
 	dialog --title "Venda de veículo"  --msgbox "$vendaC" 0 0
 
 
@@ -369,7 +370,6 @@ function numVVendidos(){
 function maisAntigoS(){
 	maisAnt=$(head -n 1 basedados.txt)
 	dialog --title "Relatório" --msgbox "O veiculo mais antigo em stock é: ""$maisAnt" 0 0 
-	relatorios
 }
 
 function gestaoBaseDados(){
