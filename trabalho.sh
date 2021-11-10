@@ -118,6 +118,7 @@ function alteraDados(){
 	opcaoAlterar=$(dialog                                   \
 				   --stdout                                 \
 				   --title 'Alteração de dados'             \
+				   --nocancel 								\
 				   --menu 'Escolha o que quer alterar: '    \
 				   0 0 0                                    \
 				   1 'Matricula'                            \
@@ -349,6 +350,7 @@ function visualizar(){
 	opcaoVisualizar=$(dialog             \
 		--stdout                         \
 		--title 'Visualizar'         	 \
+		--nocancel						 \
 		--menu 'Escoha uma opção: '      \
 		0 0 0                            \
 		1 'Matricula'                    \
@@ -410,6 +412,7 @@ function visualizarTipo(){
 function relatorios(){
 	opcaoRelatorios=$(dialog             \
 		--stdout                         \
+		--nocancel						 \
 		--title 'Relatórios'         	 \
 		--menu 'Escoha uma opção: '      \
 		0 0 0                            \
@@ -463,7 +466,8 @@ function maisAntigoS(){
 function gestaoBaseDados(){
 	opacaoBD=$(dialog             \
 		--stdout                         \
-		--title 'Gestão de Base de dados'         	 \
+		--title 'Gestão de Base de dados'\
+		--nocancel						 \
 		--menu 'Escoha uma opção: '      \
 		0 0 0                            \
 		1 'Backup-Criar uma cópia de segurança' \
