@@ -41,6 +41,7 @@ function compra() {
 	if [[ $matricula && $marca && $modelo && $ano && $tipo && $preco && $dataCp && $custoRest ]]; then
 		echo "$matricula:$marca:$modelo:$ano:$preco:$custoRest" >> basedados.txt
 		echo "$matricula:$tipo" >> tiposAutomoveis.txt
+
 	else
 		dialog --stdout --title "Aviso" --nocancel --msgbox "É necessário o preenchimento de todos os campos para a adicionar uma compra!" 0 0
 		dialog --yesno 'Deseja continuar?' 0 0
@@ -67,8 +68,9 @@ function venda(){
 		echo "$var:$pVenda:$dVenda" >> $bdVendas
 		grep -v $mVenda $basedados > tmp.txt
 		rm $basedados
-		mv temp.txt $basedados
-		dialog --title "Venda de veículos" --msgbox 'Venda efetuada com sucesso!' 0 0 
+		mv tmp.txt $basedados
+		dialog --title "Venda de veículos" --msgbox 'Venda efetuada com sucesso!' 0 0
+		dialog --yesno 'Quer efetuar outra venda?' 0 0
 	else
 		dialog --stdout --title "Aviso" --nocancel --msgbox "É necessário o preenchimento de todos os campos para a adicionar uma compra!" 0 0
 		dialog --yesno 'Deseja continuar?' 0 0
