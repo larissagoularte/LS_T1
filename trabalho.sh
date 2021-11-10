@@ -142,6 +142,7 @@ function alteraDados(){
 function alterarMatricula(){
 	#é necessário fazer a verificação
 	basedados=basedados.txt
+	tiposAutomoveis=tiposAutomoveis.txt
 
 	pedeMatricula=$(dialog --stdout --title 'Alteração de dados' --nocancel --inputbox 'Introduza a matrícula que quer alterar: ' 0 0)
 	alteraMatricula=$(dialog --stdout --title 'Alteração de dados' --nocancel --inputbox 'Para que matrícula quer alterar: ' 0 0)
@@ -154,6 +155,7 @@ function alterarMatricula(){
 
 		grep -v $pedeMatricula $basedados > tmp.txt
 		echo "$alteraMatricula:$marca:$modelo:$ano:$preco:$custoRest" >> tmp.txt
+		sed -i "s/$pedeMatricula/$alteraMatricula/" $tiposAutomoveis
 
 		rm $basedados
 		mv tmp.txt $basedados
