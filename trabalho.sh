@@ -28,19 +28,22 @@ menuPrincipal(){
 }
 
 function compra() {
-	#fazer aqui um if para  a verificação
-	matricula=$(dialog --stdout --title "Compra de veículo" --nocancel --inputbox 'Matricula' 0 0)
-	marca=$(dialog --stdout --title "Compra de veículo" --nocancel --inputbox 'Marca' 0 0)
-	modelo=$(dialog --stdout --title "Compra de veículo" --nocancel --inputbox 'Modelo' 0 0)
-	ano=$(dialog --stdout --title "Compra de veículo" --nocancel --inputbox 'Ano' 0 0)
-	tipo=$(dialog --stdout --title "Compra de veículo" --nocancel --inputbox 'Tipo' 0 0)
-	preco=$(dialog --stdout --title "Compra de veículo" --nocancel --inputbox 'Preço' 0 0)
-	custoRest=$(dialog --stdout --title "Compra de veículo" --nocancel --inputbox 'Custo de Restauro' 0 0)
-	
-
-	echo "$matricula:$marca:$modelo:$ano:$preco:$custoRest" >> basedados.txt
-	echo "$matricula:$tipo" >> tiposAutomoveis.txt
-
+	matricula=$(dialog --stdout --title "Compra de veículo" --nocancel --inputbox 'Matricula:' 0 0)
+	marca=$(dialog --stdout --title "Compra de veículo" --nocancel --inputbox 'Marca:' 0 0)
+	modelo=$(dialog --stdout --title "Compra de veículo" --nocancel --inputbox 'Modelo:' 0 0)
+	ano=$(dialog --stdout --title "Compra de veículo" --nocancel --inputbox 'Ano:' 0 0)
+	tipo=$(dialog --stdout --title "Compra de veículo" --nocancel --inputbox 'Tipo:' 0 0)
+	preco=$(dialog --stdout --title "Compra de veículo" --nocancel --inputbox 'Preço:' 0 0)
+	dataCp=$(dialog --stdout --title "Compra de veículo" --nocancel --inputbox 'Data de Compra:' 0 0)
+	custoRest=$(dialog --stdout --title "Compra de veículo" --nocancel --inputbox 'Custo de Restauro:' 0 0)
+	#Verifica se todos os campos são preenchidos
+	if [[ $matricula && $marca && $modelo && $ano && $tipo && $preco && $dataCp && $custoRest ]]; then
+		echo "$matricula:$marca:$modelo:$ano:$preco:$custoRest:$dataCp" >> basedados.txt
+		echo "$matricula:$tipo" >> tiposAutomoveis.txt
+	else
+		dialog --stdout --title "Aviso" --nocancel --msgbox "É necessário o preenchimento de todos os campos para a compra ser introduzida!" 0 0
+		compra
+	fi
 	dialog --yesno 'Quer adicionar outra compra?' 0 0
 
 		if [ $? = 0 ]; then
@@ -91,6 +94,7 @@ function alteraDados(){
 	opcaoAlterar=$(dialog                                   \
 				   --stdout                                 \
 				   --title 'Alteração de dados'             \
+				   --nocancel								\
 				   --menu 'Escolha o que quer alterar: '    \
 				   0 0 0                                    \
 				   1 'Matricula'                            \
@@ -261,6 +265,7 @@ function visualizar(){
 	opcaoVisualizar=$(dialog             \
 		--stdout                         \
 		--title 'Visualizar'         	 \
+		--nocancel					     \
 		--menu 'Escoha uma opção: '      \
 		0 0 0                            \
 		1 'Matricula'                    \
@@ -323,6 +328,7 @@ function relatorios(){
 	opcaoRelatorios=$(dialog             \
 		--stdout                         \
 		--title 'Relatórios'         	 \
+		--nocancel						 \
 		--menu 'Escoha uma opção: '      \
 		0 0 0                            \
 		1 'Listar Veículos Vendidos'     \
@@ -375,7 +381,8 @@ function maisAntigoS(){
 function gestaoBaseDados(){
 	opacaoBD=$(dialog             \
 		--stdout                         \
-		--title 'Gestão de Base de dados'         	 \
+		--title 'Gestão de Base de dados'\
+		--nocancel						 \
 		--menu 'Escoha uma opção: '      \
 		0 0 0                            \
 		1 'Backup-Criar uma cópia de segurança' \
