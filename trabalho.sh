@@ -67,7 +67,7 @@ function venda(){
 
 	grep -v $mVenda $basedados > tmp.txt
 	rm $basedados
-	mv temp.txt $basedados
+	mv tmp.txt $basedados
 
 	dialog --title "Venda de veículo"  --msgbox "Venda efetuada com sucesso" 0 0
 
