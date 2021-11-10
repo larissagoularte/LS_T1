@@ -335,13 +335,23 @@ function relatorios(){
 	case $opcaoRelatorios in
 		0) menuPrincipal ;;
 		1)  ;;
-		2)  ;;
+		2) veiculoStock ;;
 		3)  numVStock;;
 		4)  ;;
 		5)  ;;
 		6)  ;;
 	esac
 }
+
+#Relatório de veículos em stock
+function veiculoStock(){
+
+	vS=$(cat basedados.txt)
+	dialog --title "Stock de veículos" --msgbox "$vS" 0 0
+	relatorios
+
+}
+
 function numVStock(){
 	numeroVS=$(grep -c ^ basedados.txt)
 	dialog --title "Relatório"  --msgbox "O número de veiculos em stock é de: ""$numeroVS" 0 0
