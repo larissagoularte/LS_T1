@@ -41,7 +41,8 @@ function compra() {
 	if [[ $matricula && $marca && $modelo && $ano && $tipo && $preco && $dataCp && $custoRest ]]; then
 		echo "$matricula:$marca:$modelo:$ano:$preco:$custoRest" >> basedados.txt
 		echo "$matricula:$tipo" >> tiposAutomoveis.txt
-
+		menuPrincipal
+		
 	else
 		dialog --stdout --title "Aviso" --nocancel --msgbox "É necessário o preenchimento de todos os campos para a adicionar uma compra!" 0 0
 		dialog --yesno 'Deseja continuar?' 0 0
@@ -435,7 +436,7 @@ function relatorios(){
 		3) numVStock;;
 		4) numVVendidos;;
 		5) maisAntigoS;;
-		6)  ;;
+		6) lucroTotal;;
 	esac
 }
 
@@ -465,6 +466,24 @@ function numVVendidos(){
 function maisAntigoS(){
 	maisAnt=$(head -n 1 basedados.txt)
 	dialog --title "Relatório" --msgbox "O veiculo mais antigo em stock é: ""$maisAnt" 0 0 
+}
+
+function lucroTotal(){
+
+	vendas=$(cut -d : -f 5 bdVendas.txt)
+	compra=$(cut -d : -f 7 bdVendas.txt)
+	
+	let somaVendas = 0;
+	let somaCompras = 0;
+	
+	for i in $vendas; do let somaVendas+=$i; echo $i; done;
+	
+	for j in $compra; do let somaCompras+=$j; echo $j; done;
+	
+	let lucro=($somaCompras - $somaVendas)
+	dialog --title "Lucro total" --msgbox "$lucro €" 0 0
+	relatorios
+
 }
 
 function gestaoBaseDados(){
