@@ -26,7 +26,7 @@ menuPrincipal(){
 		7) relatorios ;;
 	esac
 }
-
+#Compra
 function compra() {
 	#fazer aqui um if para  a verificação
 	matricula=$(dialog --stdout --title "Compra de veículo" --nocancel --inputbox 'Matricula' 0 0)
@@ -35,21 +35,21 @@ function compra() {
 	ano=$(dialog --stdout --title "Compra de veículo" --nocancel --inputbox 'Ano' 0 0)
 	tipo=$(dialog --stdout --title "Compra de veículo" --nocancel --inputbox 'Tipo' 0 0)
 	preco=$(dialog --stdout --title "Compra de veículo" --nocancel --inputbox 'Preço' 0 0)
+	dataCp=$(dialog --stdout --title "Compra de veículo" --nocancel --inputbox 'Data de Compra:' 0 0)
 	custoRest=$(dialog --stdout --title "Compra de veículo" --nocancel --inputbox 'Custo de Restauro' 0 0)
 	
-
-	echo "$matricula:$marca:$modelo:$ano:$preco:$custoRest" >> basedados.txt
-	echo "$matricula:$tipo" >> tiposAutomoveis.txt
-
-	dialog --yesno 'Quer adicionar outra compra?' 0 0
-
+	if [[ $matricula && $marca && $modelo && $ano && $tipo && $preco && $dataCp && $custoRest ]]; then
+		echo "$matricula:$marca:$modelo:$ano:$preco:$custoRest" >> basedados.txt
+		echo "$matricula:$tipo" >> tiposAutomoveis.txt
+	else
+		dialog --stdout --title "Aviso" --nocancel --msgbox "É necessário o preenchimento de todos os campos para a adicionar uma compra!" 0 0
+		dialog --yesno 'Deseja continuar?' 0 0
 		if [ $? = 0 ]; then
 		    compra
 		else
 			menuPrincipal
 		fi
-
-	
+	fi	
 }
 #Venda
 function venda(){
@@ -62,24 +62,23 @@ function venda(){
 	pVenda=$(dialog --stdout --title "Venda de veículo" --nocancel --inputbox 'Introuza o preco de venda do veículo:' 0 0)
 	dVenda=$(dialog --stdout --title "Venda de veículo" --nocancel --inputbox 'Introduza a data de venda: ' 0 0)
 	
-	var=$(grep $mVenda $basedados)
-	echo "$var:$pVenda:$dVenda" >> $bdVendas
-
-	grep -v $mVenda $basedados > tmp.txt
-	rm $basedados
-	mv temp.txt $basedados
-
-
-	dialog --yesno 'Quer efetuar outra venda?' 0 0
+	if [[ $mVenda && $pVenda && dVenda ]]; then
+		var=$(grep $mVenda $basedados)
+		echo "$var:$pVenda:$dVenda" >> $bdVendas
+		grep -v $mVenda $basedados > tmp.txt
+		rm $basedados
+		mv temp.txt $basedados
+		dialog --title "Venda de veículos" --msgbox 'Venda efetuada com sucesso!' 0 0 
+	else
+		dialog --stdout --title "Aviso" --nocancel --msgbox "É necessário o preenchimento de todos os campos para a adicionar uma compra!" 0 0
+		dialog --yesno 'Deseja continuar?' 0 0
 		if [ $? = 0 ]; then
 		    venda
 		else
 			menuPrincipal
 		fi
 
-	dialog --title "Venda de veículo"  --msgbox "Venda efetuada com sucesso" 0 0
-
-
+	fi
 	menuPrincipal
 }
 
