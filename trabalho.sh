@@ -484,12 +484,11 @@ function lucroTotal(){
 	for j in $compra; do let somaCompras+=$j; echo $j; done;
 	for k in $restauro; do let somaRestauro+=$k; echo $k; done;
 	
-	let lucro=(($somaCompras+$somaRestauro) - $somaVendas)
+	let compraRestauro=($somaCompras + $somaRestauro)
+	let lucro=($compraRestauro - $somaVendas)
 	dialog --title "Lucro total" --msgbox "$lucro €" 0 0
 	relatorios
-
 }
-
 function gestaoBaseDados(){
 	opacaoBD=$(dialog             \
 		--stdout                         \
@@ -501,7 +500,6 @@ function gestaoBaseDados(){
 		2 'Restaurar uma cópia de segurança'    \
 		3 'Apagar uma cópia de segurança'       \
 		0 'Sair para o menu Principal')
-
 	case $opacaoBD in
 		0) menuPrincipal ;;
 		1) copia;;
@@ -530,7 +528,6 @@ function gestaoBaseDados(){
 					else
 						dialog --title "Aviso" --msgbox 'Não foi apagado nenhuma Cópia de Segurança!' 0 0
 						gestaoBaseDados
-
 					fi
 				done
 			else 
@@ -549,7 +546,6 @@ function gestaoBaseDados(){
 					gestaoBaseDados
 				fi
 		}
-
 		function restauroCopia(){
 			ls Backups/ > output_file.txt
 			show=$(cat output_file.txt)
@@ -558,6 +554,4 @@ function gestaoBaseDados(){
 			retaurarCopia=$(cp -f  Backups/$nomeFich basedados.txt)
 			gestaoBaseDados
 		}
-
-
 menuPrincipal
