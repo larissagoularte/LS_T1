@@ -69,7 +69,16 @@ function venda(){
 	rm $basedados
 	mv tmp.txt $basedados
 
+
+	dialog --yesno 'Quer efetuar outra venda?' 0 0
+		if [ $? = 0 ]; then
+		    venda
+		else
+			menuPrincipal
+		fi
+
 	dialog --title "Venda de veículo"  --msgbox "Venda efetuada com sucesso" 0 0
+
 
 	menuPrincipal
 }
@@ -77,19 +86,30 @@ function venda(){
 #Atualiza o preço de restauro
 function atualizaRestauro(){
 	basedados=basedados.txt
-
+	show=$(cat basedados.txt)
+	dialog --title "Venda de veículo"  --msgbox "$show" 0 0
 	pesqmat=$(dialog --stdout --title 'Atualizar preço de restauro' --nocancel --inputbox 'Introduza a Matricula do veículo:' 0 0)
 	custoRest=$(dialog --stdout --title 'Atualizar preço de restauro' --nocancel --inputbox 'Novo preço total de restauro:' 0 0)
+	if [[ $pesqmat && $custoRest ]]; then
+		marca=$(grep $pesqmat $basedados | cut -f 2 -d ':')
+		modelo=$(grep $pesqmat $basedados | cut -f 3 -d ':')
+		ano=$(grep $pesqmat $basedados | cut -f 4 -d ':')
+		preco=$(grep $pesqmat $basedados | cut -f 5 -d ':')
+		grep -v $pesqmat $basedados > tmp.txt
+		echo "$pesqmat:$marca:$modelo:$ano:$preco:$custoRest" >> tmp.txt
+		rm $basedados
+		mv tmp.txt $basedados
+		dialog --title "Restauro" --msgbox 'Custo de restauro atualizado para '$custoRest' com sucesso!' 0 0 
+	else 
+		dialog --stdout --title "Aviso" --nocancel --msgbox "É necessário o preenchimento de todos os campos para a atualização do restauro!" 0 0
+		dialog --yesno 'Deseja continuar?' 0 0
+		if [ $? = 0 ]; then
+		    atualizaRestauro
+		else
+			menuPrincipal
+		fi
+	fi
 	
-	marca=$(grep $pesqmat $basedados | cut -f 2 -d ':')
-	modelo=$(grep $pesqmat $basedados | cut -f 3 -d ':')
-	ano=$(grep $pesqmat $basedados | cut -f 4 -d ':')
-	preco=$(grep $pesqmat $basedados | cut -f 5 -d ':')
-	grep -v $pesqmat $basedados > tmp.txt
-	echo "$pesqmat:$marca:$modelo:$ano:$preco:$custoRest" >> tmp.txt
-	rm $basedados
-	mv tmp.txt $basedados
-	dialog --title "Restauro" --msgbox 'Custo de restauro atualizado para '$custoRest' com sucesso!' 0 0 
 	menuPrincipal
 }
 
@@ -124,20 +144,30 @@ function alterarMatricula(){
 
 	pedeMatricula=$(dialog --stdout --title 'Alteração de dados' --nocancel --inputbox 'Introduza a matrícula que quer alterar: ' 0 0)
 	alteraMatricula=$(dialog --stdout --title 'Alteração de dados' --nocancel --inputbox 'Para que matrícula quer alterar: ' 0 0)
+	if [[ $pedeMatricula && $alteraMatricula ]]; then
+		marca=$(grep $pedeMatricula $basedados | cut -f 2 -d ':')
+		modelo=$(grep $pedeMatricula $basedados | cut -f 3 -d ':')
+		ano=$(grep $pedeMatricula $basedados | cut -f 4 -d ':')
+		preco=$(grep $pedeMatricula $basedados | cut -f 5 -d ':')
+		custoRest=$(grep $pedeMatricula $basedados | cut -f 6 -d ':')
+
+		grep -v $pedeMatricula $basedados > tmp.txt
+		echo "$alteraMatricula:$marca:$modelo:$ano:$preco:$custoRest" >> tmp.txt
+
+		rm $basedados
+		mv tmp.txt $basedados
+
+		dialog --title "Modificação de matrícula" --msgbox 'Matrícula alterada para '$alteraMatricula' com sucesso!' 0 0 
+	else
+		dialog --stdout --title "Aviso" --nocancel --msgbox "É necessário o preenchimento de todos os campos para a alteração da matricula!" 0 0
+		dialog --yesno 'Deseja continuar?' 0 0
+		if [ $? = 0 ]; then
+		    alterarMatricula
+		else
+			alteraDados
+		fi
+	fi
 	
-	marca=$(grep $pedeMatricula $basedados | cut -f 2 -d ':')
-	modelo=$(grep $pedeMatricula $basedados | cut -f 3 -d ':')
-	ano=$(grep $pedeMatricula $basedados | cut -f 4 -d ':')
-	preco=$(grep $pedeMatricula $basedados | cut -f 5 -d ':')
-	custoRest=$(grep $pedeMatricula $basedados | cut -f 6 -d ':')
-
-	grep -v $pedeMatricula $basedados > tmp.txt
-	echo "$alteraMatricula:$marca:$modelo:$ano:$preco:$custoRest" >> tmp.txt
-
-	rm $basedados
-	mv tmp.txt $basedados
-
-	dialog --title "Modificação de matrícula" --msgbox 'Matrícula alterada para '$alteraMatricula' com sucesso!' 0 0 
 
 	menuPrincipal
 }
@@ -148,20 +178,30 @@ function alterarMarca(){
 
 	pedeMarca=$(dialog --stdout --title 'Alteração de dados' --nocancel --inputbox 'Introduza a matrícula da marca que quer alterar: ' 0 0)
 	alteraMarca=$(dialog --stdout --title 'Alteração de dados' --nocancel --inputbox 'Para que marca quer alterar?: ' 0 0)
+	if [[ $pedeMarca && $alteraMarca ]]; then
+		matricula=$(grep $pedeMarca $basedados | cut -f 1 -d ':')
+		modelo=$(grep $pedeMarca $basedados | cut -f 3 -d ':')
+		ano=$(grep $pedeMarca $basedados | cut -f 4 -d ':')
+		preco=$(grep $pedeMarca $basedados | cut -f 5 -d ':')
+		custoRest=$(grep $pedeMarca $basedados | cut -f 6 -d ':')
+
+		grep -v $pedeMarca $basedados > tmp.txt
+		echo "$matricula:$alteraMarca:$modelo:$ano:$preco:$custoRest" >> tmp.txt
+
+		rm $basedados
+		mv tmp.txt $basedados
+
+		dialog --title "Modificação de marca" --msgbox 'Marca alterada para '$alteraMarca' com sucesso!' 0 0 
+	else
+		dialog --stdout --title "Aviso" --nocancel --msgbox "É necessário o preenchimento de todos os campos para a alteração da marca!" 0 0
+		dialog --yesno 'Deseja continuar?' 0 0
+		if [ $? = 0 ]; then
+		    alterarMarca
+		else
+			alteraDados
+		fi
+	fi
 	
-	matricula=$(grep $pedeMarca $basedados | cut -f 1 -d ':')
-	modelo=$(grep $pedeMarca $basedados | cut -f 3 -d ':')
-	ano=$(grep $pedeMarca $basedados | cut -f 4 -d ':')
-	preco=$(grep $pedeMarca $basedados | cut -f 5 -d ':')
-	custoRest=$(grep $pedeMarca $basedados | cut -f 6 -d ':')
-
-	grep -v $pedeMarca $basedados > tmp.txt
-	echo "$matricula:$alteraMarca:$modelo:$ano:$preco:$custoRest" >> tmp.txt
-
-	rm $basedados
-	mv tmp.txt $basedados
-
-	dialog --title "Modificação de marca" --msgbox 'Marca alterada para '$alteraMarca' com sucesso!' 0 0 
 
 	menuPrincipal
 }
@@ -172,21 +212,30 @@ function alterarModelo(){
 
 	pedeModelo=$(dialog --stdout --title 'Alteração de dados' --nocancel --inputbox 'Introduza a matrícula do modelo que quer alterar: ' 0 0)
 	alteraModelo=$(dialog --stdout --title 'Alteração de dados' --nocancel --inputbox 'Para que modelo quer alterar?: ' 0 0)
+	if [[ $pedeModelo && $alteraModelo ]]; then
+		matricula=$(grep $pedeModelo $basedados | cut -f 1 -d ':')
+		marca=$(grep $pedeModelo $basedados | cut -f 2 -d ':')
+		ano=$(grep $pedeModelo $basedados | cut -f 4 -d ':')
+		preco=$(grep $pedeModelo $basedados | cut -f 5 -d ':')
+		custoRest=$(grep $pedeModelo $basedados | cut -f 6 -d ':')
+
+		grep -v $pedeModelo $basedados > tmp.txt
+		echo "$matricula:$marca:$alteraModelo:$ano:$preco:$custoRest" >> tmp.txt
+
+		rm $basedados
+		mv tmp.txt $basedados
+
+		dialog --title "Modificação de modelo" --msgbox 'Modelo alterado para '$alteraModelo' com sucesso!' 0 0 
+		else
+			dialog --stdout --title "Aviso" --nocancel --msgbox "É necessário o preenchimento de todos os campos para a alteração da modelo!" 0 0
+			dialog --yesno 'Deseja continuar?' 0 0
+			if [ $? = 0 ]; then
+			    alterarModelo
+			else
+				alteraDados
+			fi
+	fi
 	
-	matricula=$(grep $pedeModelo $basedados | cut -f 1 -d ':')
-	marca=$(grep $pedeModelo $basedados | cut -f 2 -d ':')
-	ano=$(grep $pedeModelo $basedados | cut -f 4 -d ':')
-	preco=$(grep $pedeModelo $basedados | cut -f 5 -d ':')
-	custoRest=$(grep $pedeModelo $basedados | cut -f 6 -d ':')
-
-	grep -v $pedeModelo $basedados > tmp.txt
-	echo "$matricula:$marca:$alteraModelo:$ano:$preco:$custoRest" >> tmp.txt
-
-	rm $basedados
-	mv tmp.txt $basedados
-
-	dialog --title "Modificação de modelo" --msgbox 'Modelo alterado para '$alteraModelo' com sucesso!' 0 0 
-
 	menuPrincipal
 
 }
@@ -198,20 +247,30 @@ function alterarAno(){
 	pedeAno=$(dialog --stdout --nocancel --title 'Alteração de dados' --inputbox 'Introduza a matrícula da ano que quer alterar: ' 0 0)
 	alteraAno=$(dialog --stdout --nocancel --title 'Alteração de dados' --inputbox 'Para que ano quer alterar?: ' 0 0)
 	
-	matricula=$(grep $pedeAno $basedados | cut -f 1 -d ':')
-	marca=$(grep $pedeAno $basedados | cut -f 2 -d ':')
-	modelo=$(grep $pedeAno $basedados | cut -f 3 -d ':')
-	preco=$(grep $pedeAno $basedados | cut -f 5 -d ':')
-	custoRest=$(grep $pedeAno $basedados | cut -f 6 -d ':')
+	if [[ $pedeAno && $alteraAno ]]; then
+		matricula=$(grep $pedeAno $basedados | cut -f 1 -d ':')
+		marca=$(grep $pedeAno $basedados | cut -f 2 -d ':')
+		modelo=$(grep $pedeAno $basedados | cut -f 3 -d ':')
+		preco=$(grep $pedeAno $basedados | cut -f 5 -d ':')
+		custoRest=$(grep $pedeAno $basedados | cut -f 6 -d ':')
 
-	grep -v $pedeAno $basedados > tmp.txt
-	echo "$matricula:$marca:$modelo:$alteraAno:$preco:$custoRest" >> tmp.txt
+		grep -v $pedeAno $basedados > tmp.txt
+		echo "$matricula:$marca:$modelo:$alteraAno:$preco:$custoRest" >> tmp.txt
 
-	rm $basedados
-	mv tmp.txt $basedados
+		rm $basedados
+		mv tmp.txt $basedados
 
-	dialog --title "Modificação de ano" --msgbox 'Ano alterado para '$alteraAno' com sucesso!' 0 0 
-
+		dialog --title "Modificação de ano" --msgbox 'Ano alterado para '$alteraAno' com sucesso!' 0 0 
+		else
+			dialog --stdout --title "Aviso" --nocancel --msgbox "É necessário o preenchimento de todos os campos para a alteração do ano!" 0 0
+			dialog --yesno 'Deseja continuar?' 0 0
+			if [ $? = 0 ]; then
+			    alterarAno
+			else
+				alteraDados
+			fi
+	fi
+	
 	menuPrincipal
 
 }
@@ -223,42 +282,62 @@ function alterarTipo(){
 	pedeTipo=$(dialog --stdout --nocancel --title 'Alteração de dados' --inputbox 'Introduza a matrícula do tipo que quer alterar: ' 0 0)
 	alteraTipo=$(dialog --stdout --nocancel --title 'Alteração de dados' --inputbox 'Para que tipo quer alterar?: ' 0 0)
 	
-	matricula=$(grep $pedeTipo $tipoAutomoveis | cut -f 1 -d ':')
-	tipo=$(grep $pedeTipo $tipoAutomoveis | cut -f 2 -d ':')
+	if [[ $pedeTipo && $alteraTipo ]]; then
+		matricula=$(grep $pedeTipo $tipoAutomoveis | cut -f 1 -d ':')
+		tipo=$(grep $pedeTipo $tipoAutomoveis | cut -f 2 -d ':')
 
-	grep -v $pedeTipo $tipoAutomoveis > tmp.txt
-	echo "$matricula:$alteraTipo" >> tmp.txt
+		grep -v $pedeTipo $tipoAutomoveis > tmp.txt
+		echo "$matricula:$alteraTipo" >> tmp.txt
 
-	rm $tipoAutomoveis
-	mv tmp.txt $tipoAutomoveis
+		rm $tipoAutomoveis
+		mv tmp.txt $tipoAutomoveis
 
-	dialog --title "Modificação de tipo" --msgbox 'Tipo alterado para '$alteraTipo' com sucesso!' 0 0 
-
+		dialog --title "Modificação de tipo" --msgbox 'Tipo alterado para '$alteraTipo' com sucesso!' 0 0 
+		else
+			dialog --stdout --title "Aviso" --nocancel --msgbox "É necessário o preenchimento de todos os campos para a alteração do tipo!" 0 0
+			dialog --yesno 'Deseja continuar?' 0 0
+			if [ $? = 0 ]; then
+			    alterarTipo
+			else
+				alteraDados
+			fi
+	fi
+	
 	menuPrincipal
 
 }
 
 function alterarPreco(){
-	#é necessário fazer a verificação
+	
 	basedados=basedados.txt
 
 	pedePreco=$(dialog --stdout --title 'Alteração de dados' --nocancel --inputbox 'Introduza a matrícula da preço que quer alterar: ' 0 0)
 	alteraPreco=$(dialog --stdout --title 'Alteração de dados' --nocancel --inputbox 'Para que preço quer alterar?: ' 0 0)
 	
-	matricula=$(grep $pedePreco $basedados | cut -f 1 -d ':')
-	marca=$(grep $pedePreco $basedados | cut -f 2 -d ':')
-	modelo=$(grep $pedePreco $basedados | cut -f 3 -d ':')
-	ano=$(grep $pedePreco $basedados | cut -f 4 -d ':')
-	custoRest=$(grep $pedePreco $basedados | cut -f 6 -d ':')
+	if [[ condition ]]; then
+		matricula=$(grep $pedePreco $basedados | cut -f 1 -d ':')
+		marca=$(grep $pedePreco $basedados | cut -f 2 -d ':')
+		modelo=$(grep $pedePreco $basedados | cut -f 3 -d ':')
+		ano=$(grep $pedePreco $basedados | cut -f 4 -d ':')
+		custoRest=$(grep $pedePreco $basedados | cut -f 6 -d ':')
 
-	grep -v $pedePreco $basedados > tmp.txt
-	echo "$matricula:$marca:$modelo:$ano:$alteraPreco:$custoRest" >> tmp.txt
+		grep -v $pedePreco $basedados > tmp.txt
+		echo "$matricula:$marca:$modelo:$ano:$alteraPreco:$custoRest" >> tmp.txt
 
-	rm $basedados
-	mv tmp.txt $basedados
+		rm $basedados
+		mv tmp.txt $basedados
 
-	dialog --title "Modificação de preço" --msgbox 'Preço alterado para '$alteraPreco' com sucesso!' 0 0 
-
+		dialog --title "Modificação de preço" --msgbox 'Preço alterado para '$alteraPreco' com sucesso!' 0 0 
+		else
+			dialog --stdout --title "Aviso" --nocancel --msgbox "É necessário o preenchimento de todos os campos para a alteração do preço!" 0 0
+			dialog --yesno 'Deseja continuar?' 0 0
+			if [ $? = 0 ]; then
+			    alterarPreco
+			else
+				alteraDados
+			fi
+	fi
+	
 	menuPrincipal
 
 }
