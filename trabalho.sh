@@ -474,7 +474,7 @@ function lucroTotal(){
 
 	vendas=$(cut -d : -f 5 bdVendas.txt)
 	compra=$(cut -d : -f 7 bdVendas.txt)
-	restauro=$(cut -d | -f 6 bdVendas.txt)
+	restauro=$(cut -d : -f 6 bdVendas.txt)
 	
 	let somaVendas = 0;
 	let somaCompras = 0;
