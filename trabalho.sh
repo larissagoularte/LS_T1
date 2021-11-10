@@ -26,6 +26,8 @@ menuPrincipal(){
 		7) relatorios ;;
 	esac
 }
+
+
 #Compra
 function compra() {
 	#fazer aqui um if para  a verificação
@@ -407,7 +409,7 @@ function visualizarTipo(){
 
 	sort -t ":" -k 2 -f -o tiposAutomoveis.txt tiposAutomoveis.txt
 
-	matricula=((awk))
+	#matricula=((awk))
 
 	dialog --title "Organizado por Tipo" --msgbox "$ext" 0 0 
 	visualizar
@@ -472,15 +474,17 @@ function lucroTotal(){
 
 	vendas=$(cut -d : -f 5 bdVendas.txt)
 	compra=$(cut -d : -f 7 bdVendas.txt)
+	restauro=$(cut -d | -f 6 bdVendas.txt)
 	
 	let somaVendas = 0;
 	let somaCompras = 0;
+	let somaRestauro = 0; 
 	
 	for i in $vendas; do let somaVendas+=$i; echo $i; done;
-	
 	for j in $compra; do let somaCompras+=$j; echo $j; done;
+	for k in $restauro; do let somaRestauro+=$k; echo $k; done;
 	
-	let lucro=($somaCompras - $somaVendas)
+	let lucro=(($somaCompras+$somaRestauro) - $somaVendas)
 	dialog --title "Lucro total" --msgbox "$lucro €" 0 0
 	relatorios
 
