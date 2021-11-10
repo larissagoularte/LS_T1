@@ -63,7 +63,7 @@ function venda(){
 	pVenda=$(dialog --stdout --title "Venda de veículo" --nocancel --inputbox 'Introuza o preco de venda do veículo:' 0 0)
 	dVenda=$(dialog --stdout --title "Venda de veículo" --nocancel --inputbox 'Introduza a data de venda: ' 0 0)
 	
-	if [[ $mVenda && $pVenda && dVenda ]]; then
+	if [[ $mVenda && $pVenda && $dVenda ]]; then
 		var=$(grep $mVenda $basedados)
 		echo "$var:$pVenda:$dVenda" >> $bdVendas
 		grep -v $mVenda $basedados > tmp.txt
