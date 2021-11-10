@@ -403,7 +403,11 @@ function visualizarAno(){
 
 #Falta ir buscar o resto das informações do automóvel. Neste momento só mostra o que está no ficheiro tipoAutomoveis, ou seja, matrícula e tipo
 function visualizarTipo(){
-	ext=$(sort -t ":" -k 2 tiposAutomoveis.txt)
+
+	sort -t ":" -k 2 -f -o tiposAutomoveis.txt tiposAutomoveis.txt
+
+	matricula=((awk))
+
 	dialog --title "Organizado por Tipo" --msgbox "$ext" 0 0 
 	visualizar
 }
