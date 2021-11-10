@@ -58,11 +58,11 @@ function venda(){
 	mVenda=$(dialog --stdout --title "Venda de veículo" --nocancel --inputbox 'Introuza a Matricula do veículo a vender:' 0 0)
 	pVenda=$(dialog --stdout --title "Venda de veículo" --nocancel --inputbox 'Introuza o preco de venda do veículo:' 0 0)
 	dVenda=$(dialog --stdout --title "Venda de veículo" --nocancel --inputbox 'Introuza a data de venda do veículo:' 0 0)
-	vendaC=$(grep '$mVenda' basedados.txt > temporary.txt | echo $mVenda:$pVenda:$dVenda > bdVendas.txt | sed -i "" "s/58-TR-85/d" basedados.txt )
+	vendaC=$(grep '$mVenda' basedados.txt > temporary.txt | echo $mVenda:$pVenda:$dVenda > bdVendas.txt | grep -vw '^58-TR-85\b' basedados.txt )
 	dialog --title "Venda de veículo"  --msgbox "$vendaC" 0 0
 
 
-
+	#sed -i '/^58-TR-85\b/d' basedados.txt
 	#grep -v "$mVenda" basedados.txt
 	menuPrincipal
 }
@@ -333,23 +333,26 @@ function relatorios(){
 		0 'Sair para o menu Principal')
 
 	case $opcaoRelatorios in
-		0) menuPrincipal ;;
-		1)  ;;
-		2) veiculoStock ;;
-		3)  numVStock;;
-		4)  ;;
-		5)  ;;
+		0) menuPrincipal;;
+		1) veiculosVendidos;;
+		2) veiculoStock;;
+		3) numVStock;;
+		4) numVVendidos;;
+		5) maisAntigoS;;
 		6)  ;;
 	esac
 }
 
 #Relatório de veículos em stock
+function veiculosVendidos(){
+	vV=$(cat bdVendas.txt)
+	dialog --title "Veículos vendidos" --msgbox "$vV" 0 0
+	relatorios
+}
 function veiculoStock(){
-
 	vS=$(cat basedados.txt)
 	dialog --title "Stock de veículos" --msgbox "$vS" 0 0
 	relatorios
-
 }
 
 function numVStock(){
@@ -357,8 +360,18 @@ function numVStock(){
 	dialog --title "Relatório"  --msgbox "O número de veiculos em stock é de: ""$numeroVS" 0 0
 	relatorios
 }
-
-#function veiculoVendidos
+function numVVendidos(){
+	numeroVv=$(grep -c ^ bdVendas.txt)
+	dialog --title "Relatório"  --msgbox "O número de veiculos em stock é de: ""$numeroVv" 0 0
+	relatorios
+}
+#Veiculo mais antigo em Stock
+function maisAntigoS(){
+	
+	maisAnt=$(tail +number basedados.txt)
+	dialog --tilte "Relatório" --msgbox 2 "O veiculo mais antigo em stock é: ""$maisAnt" 0 0 
+	relatorios
+}
 
 function gestaoBaseDados(){
 	opacaoBD=$(dialog             \
